@@ -1,0 +1,116 @@
+[
+  {
+    "id": "analyst",
+    "name": "Business Analyst",
+    "color": "#8b5cf6",
+    "description": "Analyzes business requirements"
+  },
+  {
+    "id": "consultant",
+    "name": "Consultant",
+    "color": "#14b8a6",
+    "description": "Provides expert consultation"
+  },
+  {
+    "id": "role_1766371380234",
+    "name": "Data Engineer",
+    "color": "#88abce",
+    "description": "Data Engineer"
+  },
+  {
+    "id": "role_1766371339835",
+    "name": "Data Science",
+    "color": "#030a8a",
+    "description": "Data Science"
+  },
+  {
+    "id": "designer",
+    "name": "Designer",
+    "color": "#ec4899",
+    "description": "Creates UI/UX designs"
+  },
+  {
+    "id": "developer",
+    "name": "Developer",
+    "color": "#0891b2",
+    "description": "Develops technical solutions"
+  },
+  {
+    "id": "role_1768181992317",
+    "name": "DevOps",
+    "color": "#f599da",
+    "description": "CI/CD DevOps"
+  },
+  {
+    "id": "role_1766371538643",
+    "name": "IT Service",
+    "color": "#865dd7",
+    "description": "IT Service"
+  },
+  {
+    "id": "role_1766371561674",
+    "name": "OT Service",
+    "color": "#4e5fac",
+    "description": "OT Service"
+  },
+  {
+    "id": "coordinator",
+    "name": "Project Coordinator",
+    "color": "#a855f7",
+    "description": "Coordinates project activities"
+  },
+  {
+    "id": "project_manager",
+    "name": "Project Manager",
+    "color": "#7c3aed",
+    "description": "Leads and manages project execution"
+  },
+  {
+    "id": "tester",
+    "name": "QA Tester",
+    "color": "#f59e0b",
+    "description": "Tests and ensures quality"
+  },
+  {
+    "id": "architect",
+    "name": "Solution Architect",
+    "color": "#6366f1",
+    "description": "Designs system architecture"
+  },
+  {
+    "id": "solution_owner",
+    "name": "Solution Owner",
+    "color": "#ea580c",
+    "description": "Owns the solution design and requirements"
+  },
+  {
+    "id": "role_1768180953222",
+    "name": "Solution Owner - Advanced Analytics",
+    "color": "#3a460e",
+    "description": "Advanced Analytics Solution Expert Domain"
+  },
+  {
+    "id": "role_1768180942042",
+    "name": "Solution Owner - CT",
+    "color": "#b7023c",
+    "description": "Culture Transfromation Solution Expert Domain"
+  },
+  {
+    "id": "role_1767659059640",
+    "name": "Solution Owner - TwinD",
+    "color": "#9093e8",
+    "description": "Advanced Predictive Solution"
+  },
+  {
+    "id": "sponsor",
+    "name": "Sponsor",
+    "color": "#dc2626",
+    "description": "Provides funding and strategic direction"
+  },
+  {
+    "id": "role_1768004024736",
+    "name": "Technical Writer",
+    "color": "#dad1d9",
+    "description": "Documented all technical of software development"
+  }
+]

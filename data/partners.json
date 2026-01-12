@@ -1,0 +1,460 @@
+[
+  {
+    "id": "p1766048785882",
+    "name": " ZiFiSense Asia",
+    "categories": [
+      "technology",
+      "operations"
+    ],
+    "location": {
+      "address": "",
+      "city": "Bangkok",
+      "country": "TH",
+      "latitude": 13.806121025290116,
+      "longitude": 100.53850167070068
+    },
+    "contact": {
+      "person": "Mr.002",
+      "email": "sales-zifisenseasia@scg.com",
+      "phone": ""
+    },
+    "scope": "Smart OFA / Spectrum analysis",
+    "agreementType": "",
+    "agreementDoc": "",
+    "agreementPurpose": "",
+    "contractValue": null,
+    "liabilities": "",
+    "effectiveDate": "2025-01-01",
+    "expiryDate": "2027-12-09",
+    "notes": "",
+    "agreement": {}
+  },
+  {
+    "id": "p1766045824151",
+    "name": "AVEVA",
+    "categories": [
+      "marketing",
+      "strategy",
+      "technology"
+    ],
+    "location": {
+      "address": "",
+      "city": "Cambridge",
+      "country": "UK",
+      "latitude": 52.23251656251125,
+      "longitude": 0.14979720122106777
+    },
+    "contact": {
+      "person": "Eric Chen",
+      "email": "AVEVATraining@aveva.com",
+      "phone": "001800013332"
+    },
+    "scope": "Platfrom owner\nMarketing arm via MSP (UHM on CONNECT is the first product)",
+    "agreementType": "Contract",
+    "agreementDoc": "",
+    "contractValue": null,
+    "agreementPurpose": "",
+    "liabilities": "",
+    "effectiveDate": "2025-01-01",
+    "expiryDate": "2026-01-01",
+    "notes": ""
+  },
+  {
+    "id": "p1766046497129",
+    "name": "B.GRIMM POWER",
+    "categories": [
+      "strategy",
+      "customer"
+    ],
+    "location": {
+      "address": "",
+      "city": "Bangkok",
+      "country": "TH",
+      "latitude": 13.749834810467737,
+      "longitude": 100.64706896838896
+    },
+    "contact": {
+      "person": "ดร. เกฮาร์ด ลิงค์ ",
+      "email": "Link@bgrimm.com",
+      "phone": "+66 (0) 2710 3400"
+    },
+    "scope": "Customer and Strategic Partner",
+    "notes": "",
+    "agreement": {}
+  },
+  {
+    "id": "p1766049371284",
+    "name": "Baker Hughes",
+    "categories": [
+      "technology"
+    ],
+    "location": {
+      "address": "",
+      "city": "Houston",
+      "country": "US",
+      "latitude": 29.875072663738816,
+      "longitude": -95.53509179287099
+    },
+    "contact": {
+      "person": "Mr.003",
+      "email": "Mr003@BH.com",
+      "phone": ""
+    },
+    "scope": "Vibration sensors & system",
+    "notes": "",
+    "agreement": {}
+  },
+  {
+    "id": "p1766106902687",
+    "name": "Calibr8",
+    "categories": [
+      "technology",
+      "marketing"
+    ],
+    "location": {
+      "address": "",
+      "city": "Pasig",
+      "country": "PHL",
+      "latitude": 14.584803557441157,
+      "longitude": 121.06261355777151
+    },
+    "contact": {
+      "person": "Mr.004",
+      "email": "team@younicagency.com",
+      "phone": "25310-2705"
+    },
+    "scope": "AVEVA partner ",
+    "notes": "",
+    "agreement": {}
+  },
+  {
+    "id": "p1766050753290",
+    "name": "CognosDX",
+    "categories": [
+      "technology"
+    ],
+    "location": {
+      "address": "",
+      "city": "Chonburi",
+      "country": "TH",
+      "latitude": 12.889974584704,
+      "longitude": 100.94477198518632
+    },
+    "contact": {
+      "person": "Mr.004",
+      "email": "info@cognosdx.com",
+      "phone": "+44 7785 474123"
+    },
+    "scope": "????",
+    "notes": "",
+    "agreement": {}
+  },
+  {
+    "id": "p1766047590043",
+    "name": "Critical Facility (CFT)",
+    "categories": [
+      "technology"
+    ],
+    "location": {
+      "address": "",
+      "city": "Changi",
+      "country": "SG",
+      "latitude": 1.3668647297052798,
+      "longitude": 103.96854866499326
+    },
+    "contact": {
+      "person": "ประทีป กิ่งทอง",
+      "email": "enquiry@critical-facility.com",
+      "phone": ""
+    },
+    "scope": "Advance lightning system",
+    "notes": "",
+    "agreement": {}
+  },
+  {
+    "id": "p1766107249632",
+    "name": "Dimension Software",
+    "categories": [
+      "technology"
+    ],
+    "location": {
+      "address": "",
+      "city": "Auckland",
+      "country": "NZL",
+      "latitude": -36.90259748453857,
+      "longitude": 174.8098933548698
+    },
+    "contact": {
+      "person": "Mr.005",
+      "email": "info@dimensionsoftwarenz.com",
+      "phone": ""
+    },
+    "scope": "Excilentier , Hima",
+    "notes": "Cancel",
+    "agreement": {}
+  },
+  {
+    "id": "p1766049671071",
+    "name": "Ematica",
+    "categories": [
+      "technology"
+    ],
+    "location": {
+      "address": "",
+      "city": "Vimercate",
+      "country": "IT",
+      "latitude": 45.59955154388095,
+      "longitude": 9.358456297234445
+    },
+    "contact": {
+      "person": "Pasquale Munno",
+      "email": "pasquale.munno@e-matica.it",
+      "phone": ""
+    },
+    "scope": "Asset visualization",
+    "notes": "",
+    "agreement": {}
+  },
+  {
+    "id": "p1766365638529",
+    "name": "FLOWLAB & SERVICE",
+    "categories": [
+      "marketing"
+    ],
+    "location": {
+      "address": "",
+      "city": "Rayong",
+      "country": "TH",
+      "latitude": 12.756206966780082,
+      "longitude": 101.17156998564953
+    },
+    "contact": {
+      "person": "Mr.Surachart",
+      "email": "marketing@flowlabservice.co.th",
+      "phone": ""
+    },
+    "scope": "???",
+    "agreementType": "MOU",
+    "agreementDoc": "",
+    "agreementPurpose": "Marketing Arm",
+    "contractValue": 5,
+    "effectiveDate": "2025-01-09",
+    "agreementPeriod": 0.1,
+    "liabilities": "No",
+    "notes": "",
+    "agreement": {}
+  },
+  {
+    "id": "p1766047023566",
+    "name": "Infinite Control",
+    "categories": [
+      "marketing",
+      "cat_1766046566177"
+    ],
+    "location": {
+      "address": "",
+      "city": "Bangko",
+      "country": "TH",
+      "latitude": 13.708699834814189,
+      "longitude": 100.63516160933118
+    },
+    "contact": {
+      "person": "K.เต้",
+      "email": "info@infinitecontrol.co.th",
+      "phone": ""
+    },
+    "scope": "Use for AVEVA Endorsed System Integrator",
+    "notes": "",
+    "agreement": {}
+  },
+  {
+    "id": "p1766108775375",
+    "name": "KMITL",
+    "categories": [
+      "academic",
+      "technology"
+    ],
+    "location": {
+      "address": "",
+      "city": "Bangkok",
+      "country": "TH",
+      "latitude": 13.73034746583771,
+      "longitude": 100.77905841672616
+    },
+    "contact": {
+      "person": "Dr.xxx",
+      "email": "xxx@KMITL.ac.th",
+      "phone": ""
+    },
+    "scope": "Cira core(AI Vision) ",
+    "agreementType": "MOU",
+    "agreementDoc": "",
+    "contractValue": null,
+    "agreementPurpose": "",
+    "liabilities": "",
+    "effectiveDate": "",
+    "expiryDate": "",
+    "notes": ""
+  },
+  {
+    "id": "p1766046058164",
+    "name": "KMUTT",
+    "categories": [
+      "academic",
+      "technology"
+    ],
+    "location": {
+      "address": "",
+      "city": "Bangkok",
+      "country": "TH",
+      "latitude": 13.651627513408583,
+      "longitude": 100.4972260013833
+    },
+    "contact": {
+      "person": "ผศ. ดร. เดี่ยว กุลพิรักษ์",
+      "email": "diew.koo@kmutt.ac.th",
+      "phone": ""
+    },
+    "scope": "MES, ERP, Digital Transformation",
+    "agreementType": "",
+    "agreementDoc": "",
+    "contractValue": null,
+    "agreementPurpose": "",
+    "liabilities": "",
+    "effectiveDate": "2025-10-01",
+    "expiryDate": "2026-03-31",
+    "notes": ""
+  },
+  {
+    "id": "p1767662930275",
+    "name": "N/A",
+    "categories": [
+      "technology"
+    ],
+    "location": {
+      "address": "271 Sukhumvit Road,Map Ta Phut",
+      "city": "Rayong",
+      "country": "Thailand",
+      "latitude": 12.75833585241643,
+      "longitude": 101.16526779151633
+    },
+    "contact": {
+      "person": "Panit Panitruttiwong",
+      "email": "panitp@scg.com",
+      "phone": "0962917532"
+    },
+    "scope": "Own develop",
+    "notes": "",
+    "agreement": {}
+  },
+  {
+    "id": "p1766047958676",
+    "name": "Partisan Consulting",
+    "categories": [
+      "technology"
+    ],
+    "location": {
+      "address": "",
+      "city": "Bangkok",
+      "country": "TH",
+      "latitude": 13.92723710084108,
+      "longitude": 100.54520572497853
+    },
+    "contact": {
+      "person": "Visitsathapong",
+      "email": "c.visitsathapong@partisanconsulting.com",
+      "phone": ""
+    },
+    "scope": "Dynamic Process Analysis (TOPO)",
+    "notes": "",
+    "agreement": {}
+  },
+  {
+    "id": "p1766047242928",
+    "name": "Schneider Electric",
+    "categories": [
+      "technology"
+    ],
+    "location": {
+      "address": "",
+      "city": "Bangkok",
+      "country": "TH",
+      "latitude": 13.547989931643428,
+      "longitude": 100.66492078329924
+    },
+    "contact": {
+      "person": "Mr.001",
+      "email": "customercare.th@schneider-electric.com",
+      "phone": ""
+    },
+    "scope": "Electrical Technology ETAP, Electrical Equipment",
+    "notes": "",
+    "agreement": {}
+  },
+  {
+    "id": "p1766048368363",
+    "name": "TRIDIAGONAL SOLUTIONS",
+    "categories": [
+      "technology"
+    ],
+    "location": {
+      "address": "",
+      "city": "Pune",
+      "country": "IND",
+      "latitude": 18.550904395634735,
+      "longitude": 73.77392833453268
+    },
+    "contact": {
+      "person": "Vaishnavi  Rathi",
+      "email": "vaishnavi.rathi@tridiagonal.com",
+      "phone": ""
+    },
+    "scope": "CFD / FEA",
+    "notes": "",
+    "agreement": {}
+  },
+  {
+    "id": "p1766108118528",
+    "name": "Univers",
+    "categories": [
+      "technology"
+    ],
+    "location": {
+      "address": "",
+      "city": "Harbourfront Avenue Keppel Bay",
+      "country": "SG",
+      "latitude": 1.2649106901561917,
+      "longitude": 103.81828177132789
+    },
+    "contact": {
+      "person": "Mr.006",
+      "email": "006@univers.com",
+      "phone": "+65 63519288"
+    },
+    "scope": "Energy management across renewables, batteries, buildings, and transport.",
+    "notes": "O&M solar team",
+    "agreement": {}
+  },
+  {
+    "id": "p1766108484372",
+    "name": "WEDO",
+    "categories": [
+      "technology"
+    ],
+    "location": {
+      "address": "",
+      "city": "Bangkok",
+      "country": "TH",
+      "latitude": 13.80432723974654,
+      "longitude": 100.53846665879145
+    },
+    "contact": {
+      "person": "Mr.007",
+      "email": "WEDO@scg.com",
+      "phone": ""
+    },
+    "scope": "MCA sensors",
+    "notes": "",
+    "agreement": {}
+  }
+]

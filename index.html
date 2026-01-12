@@ -1,0 +1,3780 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products and Partnership Management</title>
+    
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.js"></script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #2563eb;
+            --primary-dark: #1e40af;
+            --secondary-color: #64748b;
+            --bg-light: #f8fafc;
+            --bg-white: #ffffff;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --border-color: #e2e8f0;
+            --status-green: #22c55e;
+            --status-yellow: #eab308;
+            --status-red: #ef4444;
+            --warning-orange: #f97316;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: var(--bg-light);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        /* Header */
+        .header {
+            background: var(--bg-white);
+            box-shadow: var(--shadow-md);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-content {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .nav {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .nav-btn {
+            padding: 0.625rem 1rem;
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            border-radius: 0.5rem;
+            transition: all 0.2s;
+            position: relative;
+        }
+
+        .nav-btn:hover {
+            background: var(--bg-light);
+            color: var(--text-primary);
+        }
+
+        .nav-btn.active {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: var(--status-red);
+            color: white;
+            border-radius: 10px;
+            padding: 0.125rem 0.375rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            min-width: 20px;
+            text-align: center;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Views */
+        .view {
+            display: none;
+        }
+
+        .view.active {
+            display: block;
+        }
+
+        /* Card Styles */
+        .card {
+            background: var(--bg-white);
+            border-radius: 0.75rem;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-color);
+            margin-bottom: 1.5rem;
+        }
+
+        .card-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .card-body {
+            padding: 1.5rem;
+        }
+
+        /* Alert */
+        .alert {
+            padding: 1rem 1.5rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1.5rem;
+            display: none;
+        }
+
+        .alert.error {
+            background: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #fecaca;
+        }
+
+        .alert.success {
+            background: #dcfce7;
+            color: #166534;
+            border: 1px solid #bbf7d0;
+        }
+
+        .alert.warning {
+            background: #fef3c7;
+            color: #92400e;
+            border: 1px solid #fde68a;
+        }
+
+        .alert.show {
+            display: block;
+        }
+
+        /* Filters */
+        .filters {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .filter-label {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+
+        select, input, textarea {
+            padding: 0.625rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 0.5rem;
+            font-size: 0.95rem;
+            background: var(--bg-white);
+            color: var(--text-primary);
+            font-family: inherit;
+        }
+
+        select {
+            min-width: 200px;
+        }
+
+        select:focus, input:focus, textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .btn {
+            padding: 0.625rem 1.25rem;
+            border: none;
+            border-radius: 0.5rem;
+            font-size: 0.95rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+        }
+
+        .btn-secondary {
+            background: var(--secondary-color);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #475569;
+        }
+
+        .btn-success {
+            background: var(--status-green);
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #16a34a;
+        }
+
+        .btn-danger {
+            background: var(--status-red);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #dc2626;
+        }
+
+        .btn-sm {
+            padding: 0.375rem 0.875rem;
+            font-size: 0.875rem;
+        }
+
+        /* Map View */
+        #map {
+            width: 100%;
+            height: 600px;
+            border-radius: 0.75rem;
+            margin-top: 1.5rem;
+        }
+
+        .map-controls {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        /* Dashboard Summary Cards */
+        .summary-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .summary-card {
+            background: var(--bg-white);
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-color);
+        }
+
+        .summary-card-title {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .summary-card-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        /* Status Legend */
+        .status-legend {
+            display: flex;
+            gap: 2rem;
+            padding: 1rem 1.5rem;
+            background: var(--bg-white);
+            border-radius: 0.5rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--border-color);
+            flex-wrap: wrap;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+        }
+
+        .legend-color {
+            width: 16px;
+            height: 16px;
+            border-radius: 0.25rem;
+        }
+
+        /* Tables */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .data-table thead {
+            background: var(--bg-light);
+        }
+
+        .data-table th {
+            padding: 1rem;
+            text-align: left;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .data-table td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .data-table tr:hover {
+            background: var(--bg-light);
+        }
+
+        .status-indicators {
+            display: flex;
+            gap: 0.375rem;
+            flex-wrap: wrap;
+        }
+
+        .status-dot {
+            width: 20px;
+            height: 20px;
+            border-radius: 0.25rem;
+            cursor: help;
+            position: relative;
+        }
+
+        .status-dot:hover::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 0.5rem;
+            background: var(--text-primary);
+            color: white;
+            font-size: 0.75rem;
+            white-space: nowrap;
+            border-radius: 0.25rem;
+            margin-bottom: 0.25rem;
+            z-index: 1000;
+        }
+
+        .status-green { background: var(--status-green); }
+        .status-yellow { background: var(--status-yellow); }
+        .status-red { background: var(--status-red); }
+
+        .progress-bar {
+            width: 100px;
+            height: 8px;
+            background: var(--border-color);
+            border-radius: 1rem;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--primary-color);
+            transition: width 0.3s;
+        }
+
+        /* Portfolio View */
+        .portfolio-board {
+            display: flex;
+            gap: 1rem;
+            overflow-x: auto;
+            padding-bottom: 1rem;
+        }
+
+        .portfolio-column {
+            min-width: 280px;
+            background: var(--bg-light);
+            border-radius: 0.75rem;
+            padding: 1rem;
+        }
+
+        .portfolio-column-header {
+            font-weight: 600;
+            margin-bottom: 1rem;
+            padding: 0.5rem;
+            background: var(--bg-white);
+            border-radius: 0.5rem;
+            text-align: center;
+        }
+
+        .project-card {
+            background: var(--bg-white);
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-bottom: 0.75rem;
+            border: 1px solid var(--border-color);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .project-card:hover {
+            box-shadow: var(--shadow-md);
+            transform: translateY(-2px);
+        }
+
+        .project-card-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .project-card-partner {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            overflow-y: auto;
+        }
+
+        .modal.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .modal-content {
+            background: var(--bg-white);
+            border-radius: 0.75rem;
+            max-width: 1200px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .modal-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-secondary);
+            padding: 0;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 0.25rem;
+        }
+
+        .modal-close:hover {
+            background: var(--bg-light);
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+        }
+
+        .modal-footer {
+            padding: 1.5rem;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.625rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        textarea.form-input {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .form-row-3 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .form-row-4 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .status-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+
+        /* FTE Grid */
+        .fte-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .fte-input {
+            width: 100%;
+            padding: 0.5rem;
+            text-align: center;
+            font-size: 0.875rem;
+        }
+
+        .month-header {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-align: center;
+            color: var(--text-secondary);
+        }
+
+        /* Team Member Item */
+        .team-member-item {
+            padding: 1rem;
+            background: var(--bg-light);
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .team-member-header {
+            display: grid;
+            grid-template-columns: 2fr 2fr 1fr auto;
+            gap: 1rem;
+            align-items: end;
+            margin-bottom: 0.75rem;
+        }
+
+        .role-badge {
+            display: inline-block;
+            padding: 0.25rem 0.625rem;
+            background: var(--primary-color);
+            color: white;
+            border-radius: 0.25rem;
+            font-size: 0.75rem;
+            font-weight: 500;
+            margin: 0.125rem;
+        }
+
+        /* Section Divider */
+        .section-divider {
+            border: 0;
+            border-top: 2px solid var(--border-color);
+            margin: 2rem 0;
+        }
+
+        .section-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--primary-color);
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        /* Category Styles */
+        .category-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 1rem;
+            font-size: 0.875rem;
+            margin: 0.25rem;
+            color: white;
+            font-weight: 500;
+        }
+
+        .category-checkbox-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 0.75rem;
+            padding: 1rem;
+            background: var(--bg-light);
+            border-radius: 0.5rem;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .category-checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem;
+            background: var(--bg-white);
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .category-checkbox-item:hover {
+            box-shadow: var(--shadow-sm);
+        }
+
+        .category-checkbox-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        .category-color-indicator {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        /* Category/Role Item */
+        .category-list, .role-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .category-item, .role-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: var(--bg-light);
+            border-radius: 0.5rem;
+        }
+
+        .category-color-picker, .role-color-picker {
+            width: 50px;
+            height: 40px;
+            border: 2px solid var(--border-color);
+            border-radius: 0.5rem;
+            cursor: pointer;
+        }
+
+        /* Notification Styles */
+        .notification-item {
+            padding: 1rem;
+            border-left: 4px solid var(--warning-orange);
+            background: var(--bg-light);
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .notification-item.critical {
+            border-left-color: var(--status-red);
+            background: #fee2e2;
+        }
+
+        .notification-item.warning {
+            border-left-color: var(--warning-orange);
+            background: #fff7ed;
+        }
+
+        .notification-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 0.5rem;
+        }
+
+        .notification-title {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .notification-date {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+
+        /* Heatmap */
+        .heatmap-container {
+            overflow-x: auto;
+        }
+
+        .heatmap {
+            display: grid;
+            gap: 2px;
+            background: var(--border-color);
+            padding: 2px;
+            border-radius: 0.5rem;
+        }
+
+        .heatmap-row {
+            display: grid;
+            grid-template-columns: 150px repeat(12, 80px);
+            gap: 2px;
+        }
+
+        .heatmap-cell {
+            padding: 0.75rem;
+            text-align: center;
+            font-size: 0.875rem;
+            background: var(--bg-white);
+            min-height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .heatmap-header {
+            font-weight: 600;
+            background: var(--bg-light);
+        }
+
+        .heatmap-label {
+            font-weight: 500;
+            background: var(--bg-light);
+            justify-content: flex-start;
+        }
+
+        /* Chart Container */
+        .chart-container {
+            position: relative;
+            height: 400px;
+            margin: 1rem 0;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: var(--text-secondary);
+        }
+
+        .empty-state-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Toolbar */
+        .toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 250px;
+            max-width: 400px;
+        }
+
+        /* Save Button Fixed Position */
+        .save-button-container {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 1500;
+        }
+
+        .btn-save {
+            padding: 1rem 2rem;
+            font-size: 1rem;
+            box-shadow: var(--shadow-lg);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Info Box */
+        .info-box {
+            background: #dbeafe;
+            border: 1px solid #93c5fd;
+            color: #1e40af;
+            padding: 1rem 1.5rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+        }
+
+        .info-box strong {
+            color: #1e3a8a;
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .nav {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .container {
+                padding: 1rem;
+            }
+
+            .form-row,
+            .form-row-3,
+            .form-row-4 {
+                grid-template-columns: 1fr;
+            }
+
+            .heatmap-row {
+                grid-template-columns: 100px repeat(12, 60px);
+            }
+
+            .save-button-container {
+                bottom: 1rem;
+                right: 1rem;
+                left: 1rem;
+            }
+
+            .btn-save {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">🤝 Product and Partnership Management</div>
+            <nav class="nav">
+                <button class="nav-btn active" onclick="showView('map')">Map</button>
+                <button class="nav-btn" onclick="showView('dashboard')">Dashboard</button>
+                <button class="nav-btn" onclick="showView('portfolio')">Portfolio</button>
+                <button class="nav-btn" onclick="showView('notifications')">
+                    Notifications
+                    <span id="notificationBadge" class="notification-badge" style="display: none;">0</span>
+                </button>
+                <button class="nav-btn" onclick="showView('resources')">Resources</button>
+                <button class="nav-btn" onclick="showView('managePartners')">Partners</button>
+                <button class="nav-btn" onclick="showView('manageProjects')">Projects</button>
+                <button class="nav-btn" onclick="showView('manageMembers')">Members</button>
+                <button class="nav-btn" onclick="showView('manageRoles')">Roles</button>
+                <button class="nav-btn" onclick="showView('manageCategories')">Categories</button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Alerts -->
+        <div id="successAlert" class="alert success"></div>
+        <div id="warningAlert" class="alert warning"></div>
+        <div id="errorAlert" class="alert error"></div>
+
+        <!-- Map View -->
+        <div id="mapView" class="view active">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Partner Locations</h2>
+                </div>
+                <div class="card-body">
+                    <div class="map-controls">
+                        <div class="filter-group">
+                            <label class="filter-label">Filter by Category</label>
+                            <select id="mapCategoryFilter" onchange="filterMapMarkers()">
+                                <option value="">All Categories</option>
+                            </select>
+                        </div>
+                        <button class="btn btn-primary" onclick="fitMapToMarkers()">Zoom to Fit All</button>
+                    </div>
+                    <div id="map"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dashboard View -->
+        <div id="dashboardView" class="view">
+            <div class="summary-cards">
+                <div class="summary-card">
+                    <div class="summary-card-title">Total Projects</div>
+                    <div class="summary-card-value" id="totalProjects">0</div>
+                </div>
+                <div class="summary-card">
+                    <div class="summary-card-title">Active Partners</div>
+                    <div class="summary-card-value" id="totalPartners">0</div>
+                </div>
+                <div class="summary-card">
+                    <div class="summary-card-title">Average Progress</div>
+                    <div class="summary-card-value" id="avgProgress">0%</div>
+                </div>
+                <div class="summary-card">
+                    <div class="summary-card-title">Critical Issues</div>
+                    <div class="summary-card-value" id="criticalIssues" style="color: var(--status-red);">0</div>
+                </div>
+            </div>
+
+            <div class="status-legend">
+                <div class="legend-item">
+                    <div class="legend-color status-green"></div>
+                    <span>Green - Good</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color status-yellow"></div>
+                    <span>Yellow - Caution</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color status-red"></div>
+                    <span>Red - Critical</span>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <div class="filters">
+                        <div class="filter-group">
+                            <label class="filter-label">Partner</label>
+                            <select id="dashboardPartnerFilter" onchange="filterDashboard()">
+                                <option value="">All Partners</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label class="filter-label">Category</label>
+                            <select id="dashboardCategoryFilter" onchange="filterDashboard()">
+                                <option value="">All Categories</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label class="filter-label">Phase</label>
+                            <select id="dashboardPhaseFilter" onchange="filterDashboard()">
+                                <option value="">All Phases</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label class="filter-label">Status Color</label>
+                            <select id="dashboardStatusFilter" onchange="filterDashboard()">
+                                <option value="">All Statuses</option>
+                                <option value="Red">Red (Critical)</option>
+                                <option value="Yellow">Yellow (Caution)</option>
+                                <option value="Green">Green (Good)</option>
+                            </select>
+                        </div>
+                        <div class="filter-group" style="justify-content: flex-end;">
+                            <label class="filter-label">&nbsp;</label>
+                            <button class="btn btn-secondary" onclick="resetDashboardFilters()">Reset</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <div id="projectTableContainer"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Portfolio View -->
+        <div id="portfolioView" class="view">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Project Portfolio by Phase</h2>
+                </div>
+                <div class="card-body">
+                    <div class="filters">
+                        <div class="filter-group">
+                            <label class="filter-label">Partner</label>
+                            <select id="portfolioPartnerFilter" onchange="filterPortfolio()">
+                                <option value="">All Partners</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label class="filter-label">Category</label>
+                            <select id="portfolioCategoryFilter" onchange="filterPortfolio()">
+                                <option value="">All Categories</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label class="filter-label">Status</label>
+                            <select id="portfolioStatusFilter" onchange="filterPortfolio()">
+                                <option value="">All Statuses</option>
+                                <option value="Red">Red</option>
+                                <option value="Yellow">Yellow</option>
+                                <option value="Green">Green</option>
+                            </select>
+                        </div>
+                        <div class="filter-group" style="justify-content: flex-end;">
+                            <label class="filter-label">&nbsp;</label>
+                            <button class="btn btn-secondary" onclick="resetPortfolioFilters()">Reset</button>
+                        </div>
+                    </div>
+                    <div id="portfolioBoard" class="portfolio-board"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Notifications View -->
+        <div id="notificationsView" class="view">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Agreement Notifications</h2>
+                    <div class="filter-group">
+                        <label class="filter-label">Warning Days Before Expiry</label>
+                        <input type="number" class="form-input" id="warningDays" value="90" onchange="updateNotifications()" style="width: 150px;">
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div id="notificationsList"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Resources View -->
+        <div id="resourcesView" class="view">
+            <!-- Role Workload Heatmap -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Role Workload Heatmap (Next 12 Months)</h2>
+                    <div class="filter-group">
+                        <label class="filter-label">Max FTE Scale</label>
+                        <input type="number" step="0.1" class="form-input" id="maxFteScale" value="1.5" onchange="updateResourceCharts()" style="width: 120px;">
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="heatmap-container" id="heatmapContainer"></div>
+                </div>
+            </div>
+
+            <!-- Monthly Workload Trend -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Monthly Workload Trend by Role</h2>
+                </div>
+                <div class="card-body">
+                    <div class="chart-container">
+                        <canvas id="workloadTrendChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Individual Workload -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Individual Workload</h2>
+                    <div class="filter-group">
+                        <label class="filter-label">Select Member</label>
+                        <select id="individualMemberFilter" onchange="updateIndividualWorkload()">
+                            <option value="">Select a member</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="chart-container">
+                        <canvas id="individualWorkloadChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Role & Member FTE Table -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Role & Member FTE Allocation</h2>
+                </div>
+                <div class="card-body">
+                    <div style="overflow-x: auto;">
+                        <table class="data-table" id="fteTable">
+                            <thead>
+                                <tr>
+                                    <th>Role</th>
+                                    <th>Member</th>
+                                    <th>Project</th>
+                                    <th>Jan</th>
+                                    <th>Feb</th>
+                                    <th>Mar</th>
+                                    <th>Apr</th>
+                                    <th>May</th>
+                                    <th>Jun</th>
+                                    <th>Jul</th>
+                                    <th>Aug</th>
+                                    <th>Sep</th>
+                                    <th>Oct</th>
+                                    <th>Nov</th>
+                                    <th>Dec</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody id="fteTableBody">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Manage Partners View -->
+        <div id="managePartnersView" class="view">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Manage Partners</h2>
+                    <div class="action-buttons">
+                        <button class="btn btn-success" onclick="openPartnerModal()">
+                            ➕ Add Partner
+                        </button>
+                        <button class="btn btn-secondary" onclick="document.getElementById('uploadPartnersFile').click()">
+                            📤 Upload
+                        </button>
+                        <input type="file" id="uploadPartnersFile" accept=".json" style="display: none;" onchange="uploadPartnersJSON(event)">
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="toolbar">
+                        <div class="search-box">
+                            <input type="text" id="partnerSearch" class="form-input" placeholder="🔍 Search..." onkeyup="filterPartnerTable()">
+                        </div>
+                    </div>
+                    <div style="overflow-x: auto;">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Categories</th>
+                                    <th>Agreement</th>
+                                    <th>Value (฿M)</th>
+                                    <th>Effective</th>
+                                    <th>Expiry</th>
+                                    <th>Location</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="partnersTableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="save-button-container">
+                <button class="btn btn-success btn-save" onclick="saveAllPartnersData()">
+                    💾 Save All Partners
+                </button>
+            </div>
+        </div>
+
+        <!-- Manage Projects View -->
+        <div id="manageProjectsView" class="view">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Manage Projects</h2>
+                    <div class="action-buttons">
+                        <button class="btn btn-success" onclick="openProjectModal()">
+                            ➕ Add Project
+                        </button>
+                        <button class="btn btn-secondary" onclick="document.getElementById('uploadProjectsFile').click()">
+                            📤 Upload
+                        </button>
+                        <input type="file" id="uploadProjectsFile" accept=".json" style="display: none;" onchange="uploadProjectsJSON(event)">
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="toolbar">
+                        <div class="search-box">
+                            <input type="text" id="projectSearch" class="form-input" placeholder="🔍 Search..." onkeyup="filterProjectsTable()">
+                        </div>
+                    </div>
+                    <div style="overflow-x: auto;">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Project</th>
+                                    <th>Partner</th>
+                                    <th>Team Size</th>
+                                    <th>Phase</th>
+                                    <th>Progress</th>
+                                    <th>Cost (฿M)</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="projectsManageTableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="save-button-container">
+                <button class="btn btn-success btn-save" onclick="saveAllProjectsData()">
+                    💾 Save All Projects
+                </button>
+            </div>
+        </div>
+
+        <!-- Manage Members View -->
+        <div id="manageMembersView" class="view">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Manage Members</h2>
+                    <div class="action-buttons">
+                        <button class="btn btn-success" onclick="openMemberModal()">
+                            ➕ Add Member
+                        </button>
+                        <button class="btn btn-secondary" onclick="document.getElementById('uploadMembersFile').click()">
+                            📤 Upload
+                        </button>
+                        <input type="file" id="uploadMembersFile" accept=".json" style="display: none;" onchange="uploadMembersJSON(event)">
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="toolbar">
+                        <div class="search-box">
+                            <input type="text" id="memberSearch" class="form-input" placeholder="🔍 Search..." onkeyup="filterMemberTable()">
+                        </div>
+                    </div>
+                    <div style="overflow-x: auto;">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Company</th>
+                                    <th>Department</th>
+                                    <th>Roles</th>
+                                    <th>Phone</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="membersTableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="save-button-container">
+                <button class="btn btn-success btn-save" onclick="saveAllMembers()">
+                    💾 Save All Members
+                </button>
+            </div>
+        </div>
+
+        <!-- Manage Roles View -->
+        <div id="manageRolesView" class="view">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Manage Roles</h2>
+                    <div class="action-buttons">
+                        <button class="btn btn-success" onclick="addNewRole()">
+                            ➕ Add Role
+                        </button>
+                        <button class="btn btn-secondary" onclick="document.getElementById('uploadRolesFile').click()">
+                            📤 Upload
+                        </button>
+                        <input type="file" id="uploadRolesFile" accept=".json" style="display: none;" onchange="uploadRolesJSON(event)">
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="info-box">
+                        <strong>ℹ️ Info:</strong> Roles define positions and responsibilities. Each role has a custom color for visual identification.
+                    </div>
+                    <div class="role-list" id="roleList"></div>
+                </div>
+            </div>
+            <div class="save-button-container">
+                <button class="btn btn-success btn-save" onclick="saveAllRoles()">
+                    💾 Save All Roles
+                </button>
+            </div>
+        </div>
+
+        <!-- Manage Categories View -->
+        <div id="manageCategoriesView" class="view">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Manage Categories</h2>
+                    <div class="action-buttons">
+                        <button class="btn btn-success" onclick="addNewCategory()">
+                            ➕ Add Category
+                        </button>
+                        <button class="btn btn-secondary" onclick="document.getElementById('uploadCategoriesFile').click()">
+                            📤 Upload
+                        </button>
+                        <input type="file" id="uploadCategoriesFile" accept=".json" style="display: none;" onchange="uploadCategoriesJSON(event)">
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="info-box">
+                        <strong>ℹ️ Info:</strong> Categories classify partners. Each has a unique color displayed throughout the platform.
+                    </div>
+                    <div class="category-list" id="categoryList"></div>
+                </div>
+            </div>
+            <div class="save-button-container">
+                <button class="btn btn-success btn-save" onclick="saveAllCategories()">
+                    💾 Save All Categories
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Partner Modal -->
+    <div id="partnerModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="partnerModalTitle">Add Partner</h3>
+                <button class="modal-close" onclick="closePartnerModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="partnerForm">
+                    <div class="section-title">📋 Basic Information</div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Partner Name *</label>
+                        <input type="text" class="form-input" id="partnerName" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Categories * (Select one or more)</label>
+                        <div class="category-checkbox-group" id="partnerCategoryCheckboxes"></div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Contact Person *</label>
+                            <input type="text" class="form-input" id="partnerContactPerson" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Email *</label>
+                            <input type="email" class="form-input" id="partnerEmail" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Phone</label>
+                            <input type="tel" class="form-input" id="partnerPhone">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Address</label>
+                            <input type="text" class="form-input" id="partnerAddress">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">City *</label>
+                            <input type="text" class="form-input" id="partnerCity" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Country *</label>
+                            <input type="text" class="form-input" id="partnerCountry" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Latitude *</label>
+                            <input type="number" step="any" class="form-input" id="partnerLatitude" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Longitude *</label>
+                            <input type="number" step="any" class="form-input" id="partnerLongitude" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Scope *</label>
+                        <textarea class="form-input" id="partnerScope" required></textarea>
+                    </div>
+
+                    <hr class="section-divider">
+                    <div class="section-title">📄 Agreement Details</div>
+
+                    <div class="form-row-3">
+                        <div class="form-group">
+                            <label class="form-label">Agreement Type</label>
+                            <select class="form-input" id="agreementType">
+                                <option value="">None</option>
+                                <option value="NDA">NDA</option>
+                                <option value="MOU">MOU</option>
+                                <option value="Contract">Contract</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Agreement Document</label>
+                            <input type="text" class="form-input" id="agreementDoc" placeholder="Document reference">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Contract Value (฿M)</label>
+                            <input type="number" step="0.01" class="form-input" id="contractValue">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Agreement Purpose</label>
+                        <textarea class="form-input" id="agreementPurpose"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Liabilities/Obligations</label>
+                        <textarea class="form-input" id="liabilities"></textarea>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Effective Date</label>
+                            <input type="date" class="form-input" id="effectiveDate">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Expiry Date</label>
+                            <input type="date" class="form-input" id="expiryDate">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Notes</label>
+                        <textarea class="form-input" id="partnerNotes"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closePartnerModal()">Cancel</button>
+                <button class="btn btn-primary" onclick="savePartner()">Save Partner</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Project Modal -->
+    <div id="projectModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="projectModalTitle">Project Details</h3>
+                <button class="modal-close" onclick="closeProjectModal()">&times;</button>
+            </div>
+            <div class="modal-body" id="projectModalBody"></div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeProjectModal()">Cancel</button>
+                <button class="btn btn-primary" onclick="saveProject()">Save Project</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Member Modal -->
+    <div id="memberModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="memberModalTitle">Add Member</h3>
+                <button class="modal-close" onclick="closeMemberModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="memberForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">First Name *</label>
+                            <input type="text" class="form-input" id="memberFirstName" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Last Name *</label>
+                            <input type="text" class="form-input" id="memberLastName" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Email *</label>
+                            <input type="email" class="form-input" id="memberEmail" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Phone</label>
+                            <input type="tel" class="form-input" id="memberPhone">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Company *</label>
+                            <input type="text" class="form-input" id="memberCompany" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Department</label>
+                            <input type="text" class="form-input" id="memberDepartment">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Title/Position</label>
+                            <input type="text" class="form-input" id="memberTitle">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Location</label>
+                            <input type="text" class="form-input" id="memberLocation">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Roles * (Select one or more)</label>
+                        <div class="category-checkbox-group" id="memberRoleCheckboxes"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Skills (comma-separated)</label>
+                        <input type="text" class="form-input" id="memberSkills" placeholder="e.g., Project Management, Agile, Python">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Notes</label>
+                        <textarea class="form-input" id="memberNotes"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeMemberModal()">Cancel</button>
+                <button class="btn btn-primary" onclick="saveMember()">Save Member</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <script>
+        // Global State
+        let partners = [];
+        let projects = [];
+        let categories = [];
+        let members = [];
+        let roles = [];
+        let map = null;
+        let markersLayer = null;
+        let currentPartner = null;
+        let currentProject = null;
+        let currentMember = null;
+        let editMode = false;
+        let fileHandles = {};
+        let workloadTrendChart = null;
+        let individualWorkloadChart = null;
+
+        const PHASES = ['Ideate', 'Incubate', 'Introduction', 'Growth', 'Mature', 'Decline', 'EndOfLife'];
+        const STATUS_DIMENSIONS = [
+            'marketStatus', 'profitabilityStatus', 'scalabilityStatus', 'resourceStatus',
+            'technologyStatus', 'budgetStatus', 'riskStatus', 'scheduleStatus'
+        ];
+        const DIMENSION_LABELS = {
+            marketStatus: 'Market',
+            profitabilityStatus: 'Profitability',
+            scalabilityStatus: 'Scalability',
+            resourceStatus: 'Resource',
+            technologyStatus: 'Technology',
+            budgetStatus: 'Budget',
+            riskStatus: 'Risk',
+            scheduleStatus: 'Schedule'
+        };
+
+        const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+        const DEFAULT_CATEGORIES = [
+            { id: 'technology', name: 'Technology', color: '#3b82f6' },
+            { id: 'marketing', name: 'Marketing', color: '#ec4899' },
+            { id: 'finance', name: 'Finance', color: '#10b981' },
+            { id: 'operations', name: 'Operations', color: '#f59e0b' },
+            { id: 'strategy', name: 'Strategy', color: '#8b5cf6' },
+            { id: 'academic', name: 'Academic', color: '#06b6d4' },
+            { id: 'governance', name: 'Governance', color: '#84cc16' },
+            { id: 'customer', name: 'Customer', color: '#f43f5e' }
+        ];
+
+        const DEFAULT_ROLES = [
+            { id: 'project_manager', name: 'Project Manager', color: '#7c3aed', description: 'Leads and manages project execution' },
+            { id: 'sponsor', name: 'Sponsor', color: '#dc2626', description: 'Provides funding and strategic direction' },
+            { id: 'solution_owner', name: 'Solution Owner', color: '#ea580c', description: 'Owns solution design' },
+            { id: 'developer', name: 'Developer', color: '#0891b2', description: 'Develops technical solutions' },
+            { id: 'designer', name: 'Designer', color: '#ec4899', description: 'Creates UI/UX designs' },
+            { id: 'analyst', name: 'Business Analyst', color: '#8b5cf6', description: 'Analyzes requirements' },
+            { id: 'tester', name: 'QA Tester', color: '#f59e0b', description: 'Tests and ensures quality' },
+            { id: 'architect', name: 'Solution Architect', color: '#6366f1', description: 'Designs architecture' },
+            { id: 'consultant', name: 'Consultant', color: '#14b8a6', description: 'Provides consultation' },
+            { id: 'coordinator', name: 'Project Coordinator', color: '#a855f7', description: 'Coordinates activities' }
+        ];
+
+        // ========== FILE SYSTEM ACCESS API FUNCTIONS ==========
+
+        async function saveToFile(data, fileName, fileType) {
+            const jsonString = JSON.stringify(data, null, 2);
+            
+            // Try to use File System Access API (Chrome, Edge)
+            if ('showSaveFilePicker' in window) {
+                try {
+                    const handle = await window.showSaveFilePicker({
+                        suggestedName: fileName,
+                        types: [{
+                            description: 'JSON Files',
+                            accept: { 'application/json': ['.json'] }
+                        }]
+                    });
+                    
+                    const writable = await handle.createWritable();
+                    await writable.write(jsonString);
+                    await writable.close();
+                    
+                    fileHandles[fileType] = handle;
+                    
+                    showSuccess(`${fileName} saved successfully!`);
+                    return true;
+                } catch (error) {
+                    if (error.name === 'AbortError') {
+                        showWarning('Save cancelled by user');
+                        return false;
+                    }
+                    console.error('Error saving file:', error);
+                    showError('Error saving file: ' + error.message);
+                    return false;
+                }
+            } else {
+                // Fallback: Download the file
+                const blob = new Blob([jsonString], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = fileName;
+                link.click();
+                URL.revokeObjectURL(url);
+                
+                showWarning(`File downloaded as ${fileName}. Please replace the file in ./data/ folder manually.`);
+                return true;
+            }
+        }
+
+        // Initialize Application
+        async function init() {
+            try {
+                await loadData();
+                initMap();
+                populateFilters();
+                updateDashboard();
+                updatePortfolio();
+                updatePartnerTable();
+                updateProjectsManageTable();
+                updateCategoryList();
+                updateMemberTable();
+                updateRoleList();
+                updateNotifications();
+                updateResourceCharts();
+            } catch (error) {
+                showError('Failed to initialize: ' + error.message);
+            }
+        }
+
+        // Load Data from JSON files
+        async function loadData() {
+            try {
+                // Load all data files
+                const responses = await Promise.allSettled([
+                    fetch('./data/categories.json'),
+                    fetch('./data/roles.json'),
+                    fetch('./data/members.json'),
+                    fetch('./data/partners.json'),
+                    fetch('./data/projects.json')
+                ]);
+
+                // Categories
+                if (responses[0].status === 'fulfilled' && responses[0].value.ok) {
+                    categories = await responses[0].value.json();
+                } else {
+                    categories = JSON.parse(JSON.stringify(DEFAULT_CATEGORIES));
+                }
+
+                // Roles
+                if (responses[1].status === 'fulfilled' && responses[1].value.ok) {
+                    roles = await responses[1].value.json();
+                } else {
+                    roles = JSON.parse(JSON.stringify(DEFAULT_ROLES));
+                }
+
+                // Members
+                if (responses[2].status === 'fulfilled' && responses[2].value.ok) {
+                    members = await responses[2].value.json();
+                } else {
+                    members = [];
+                }
+
+                // Partners
+                if (responses[3].status === 'fulfilled' && responses[3].value.ok) {
+                    partners = await responses[3].value.json();
+                    partners = partners.map(p => {
+                        if (p.category && typeof p.category === 'string') {
+                            return { ...p, categories: [p.category] };
+                        } else if (!p.categories) {
+                            return { ...p, categories: [] };
+                        }
+                        return p;
+                    });
+                } else {
+                    partners = [];
+                }
+
+                // Projects
+                if (responses[4].status === 'fulfilled' && responses[4].value.ok) {
+                    projects = await responses[4].value.json();
+                } else {
+                    projects = [];
+                }
+
+                // Sort data alphabetically
+                categories.sort((a, b) => a.name.localeCompare(b.name));
+                roles.sort((a, b) => a.name.localeCompare(b.name));
+                members.sort((a, b) => {
+                    const nameA = `${a.firstName} ${a.lastName}`;
+                    const nameB = `${b.firstName} ${b.lastName}`;
+                    return nameA.localeCompare(nameB);
+                });
+                partners.sort((a, b) => a.name.localeCompare(b.name));
+
+                console.log('Data loaded:', partners.length, 'partners,', projects.length, 'projects,', 
+                           categories.length, 'categories,', members.length, 'members,', roles.length, 'roles');
+            } catch (error) {
+                showError('Error loading data: ' + error.message);
+                categories = JSON.parse(JSON.stringify(DEFAULT_CATEGORIES));
+                roles = JSON.parse(JSON.stringify(DEFAULT_ROLES));
+                members = [];
+                partners = [];
+                projects = [];
+            }
+        }
+
+        // Show Messages
+        function showSuccess(message) {
+            const alert = document.getElementById('successAlert');
+            alert.textContent = message;
+            alert.classList.add('show');
+            setTimeout(() => alert.classList.remove('show'), 5000);
+        }
+
+        function showWarning(message) {
+            const alert = document.getElementById('warningAlert');
+            alert.textContent = message;
+            alert.classList.add('show');
+            setTimeout(() => alert.classList.remove('show'), 5000);
+        }
+
+        function showError(message) {
+            const alert = document.getElementById('errorAlert');
+            alert.textContent = message;
+            alert.classList.add('show');
+            setTimeout(() => alert.classList.remove('show'), 5000);
+        }
+
+        // View Navigation
+        function showView(viewName) {
+            document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            document.querySelectorAll('.view').forEach(view => view.classList.remove('active'));
+            document.getElementById(viewName + 'View').classList.add('active');
+
+            if (viewName === 'dashboard') {
+                updateDashboard();
+            } else if (viewName === 'portfolio') {
+                updatePortfolio();
+            } else if (viewName === 'map' && map) {
+                setTimeout(() => map.invalidateSize(), 100);
+            } else if (viewName === 'managePartners') {
+                updatePartnerTable();
+            } else if (viewName === 'manageProjects') {
+                updateProjectsManageTable();
+            } else if (viewName === 'manageCategories') {
+                updateCategoryList();
+            } else if (viewName === 'manageMembers') {
+                updateMemberTable();
+            } else if (viewName === 'manageRoles') {
+                updateRoleList();
+            } else if (viewName === 'notifications') {
+                updateNotifications();
+            } else if (viewName === 'resources') {
+                updateResourceCharts();
+            }
+        }
+
+        // ========== NOTIFICATIONS ==========
+
+        function updateNotifications() {
+            const warningDays = parseInt(document.getElementById('warningDays')?.value || 90);
+            const today = new Date();
+            const notifications = [];
+
+            partners.forEach(partner => {
+                if (partner.expiryDate) {
+                    const expiryDate = new Date(partner.expiryDate);
+                    const daysUntilExpiry = Math.ceil((expiryDate - today) / (1000 * 60 * 60 * 24));
+
+                    if (daysUntilExpiry < 0) {
+                        notifications.push({
+                            type: 'critical',
+                            partner: partner.name,
+                            agreementType: partner.agreementType || 'Agreement',
+                            expiryDate: partner.expiryDate,
+                            daysUntilExpiry: daysUntilExpiry,
+                            message: `OVERDUE by ${Math.abs(daysUntilExpiry)} days`
+                        });
+                    } else if (daysUntilExpiry <= warningDays) {
+                        notifications.push({
+                            type: 'warning',
+                            partner: partner.name,
+                            agreementType: partner.agreementType || 'Agreement',
+                            expiryDate: partner.expiryDate,
+                            daysUntilExpiry: daysUntilExpiry,
+                            message: `Expires in ${daysUntilExpiry} days`
+                        });
+                    }
+                }
+            });
+
+            // Update badge
+            const badge = document.getElementById('notificationBadge');
+            if (notifications.length > 0) {
+                badge.textContent = notifications.length;
+                badge.style.display = 'block';
+            } else {
+                badge.style.display = 'none';
+            }
+
+            // Display notifications
+            const container = document.getElementById('notificationsList');
+            if (notifications.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">✅</div>
+                        <p>No upcoming agreement expirations</p>
+                    </div>
+                `;
+                return;
+            }
+
+            notifications.sort((a, b) => a.daysUntilExpiry - b.daysUntilExpiry);
+
+            container.innerHTML = notifications.map(n => `
+                <div class="notification-item ${n.type}">
+                    <div class="notification-header">
+                        <div>
+                            <div class="notification-title">${n.partner} - ${n.agreementType}</div>
+                            <div class="notification-date">Expiry: ${n.expiryDate}</div>
+                        </div>
+                        <div style="font-weight: 600; color: ${n.type === 'critical' ? 'var(--status-red)' : 'var(--warning-orange)'};">
+                            ${n.message}
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // ========== RESOURCE MANAGEMENT ==========
+
+        function calculateRoleWorkload() {
+            const roleWorkload = {};
+            
+            roles.forEach(role => {
+                roleWorkload[role.id] = Array(12).fill(0);
+            });
+
+            projects.forEach(project => {
+                if (!project.teamMembers) return;
+
+                project.teamMembers.forEach(tm => {
+                    const roleId = tm.roleId;
+                    if (!roleId || !roleWorkload[roleId]) return;
+
+                    (tm.fteAllocation || []).forEach((fte, month) => {
+                        roleWorkload[roleId][month] += parseFloat(fte) || 0;
+                    });
+                });
+            });
+
+            return roleWorkload;
+        }
+
+        function getHeatmapColor(value, maxScale) {
+            if (value === 0) return '#ffffff';
+            
+            const intensity = Math.min(value / maxScale, 1);
+            
+            if (intensity <= 0.5) {
+                // Green to Yellow
+                const r = Math.round(34 + (234 - 34) * (intensity * 2));
+                const g = Math.round(197 + (171 - 197) * (intensity * 2));
+                const b = Math.round(94 + (8 - 94) * (intensity * 2));
+                return `rgb(${r}, ${g}, ${b})`;
+            } else {
+                // Yellow to Red
+                const r = Math.round(234 + (239 - 234) * ((intensity - 0.5) * 2));
+                const g = Math.round(171 - 171 * ((intensity - 0.5) * 2));
+                const b = Math.round(8 + (68 - 8) * ((intensity - 0.5) * 2));
+                return `rgb(${r}, ${g}, ${b})`;
+            }
+        }
+
+        function updateResourceCharts() {
+            const maxScale = parseFloat(document.getElementById('maxFteScale')?.value || 1.5);
+            const roleWorkload = calculateRoleWorkload();
+
+            // Update Heatmap
+            const heatmapContainer = document.getElementById('heatmapContainer');
+            let heatmapHTML = '<div class="heatmap">';
+            
+            // Header row
+            heatmapHTML += '<div class="heatmap-row">';
+            heatmapHTML += '<div class="heatmap-cell heatmap-header">Role</div>';
+            MONTHS.forEach(month => {
+                heatmapHTML += `<div class="heatmap-cell heatmap-header">${month}</div>`;
+            });
+            heatmapHTML += '</div>';
+
+            // Data rows
+            roles.forEach(role => {
+                const workload = roleWorkload[role.id] || Array(12).fill(0);
+                heatmapHTML += '<div class="heatmap-row">';
+                heatmapHTML += `<div class="heatmap-cell heatmap-label">${role.name}</div>`;
+                workload.forEach(fte => {
+                    const color = getHeatmapColor(fte, maxScale);
+                    const textColor = fte > maxScale * 0.5 ? 'white' : 'black';
+                    heatmapHTML += `<div class="heatmap-cell" style="background-color: ${color}; color: ${textColor}; font-weight: 600;">
+                        ${fte.toFixed(1)}
+                    </div>`;
+                });
+                heatmapHTML += '</div>';
+            });
+
+            heatmapHTML += '</div>';
+
+            // Add legend
+            heatmapHTML += `
+                <div style="margin-top: 1rem; display: flex; align-items: center; gap: 1rem;">
+                    <span style="font-weight: 600;">Legend:</span>
+                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                        <div style="width: 30px; height: 20px; background: ${getHeatmapColor(0, maxScale)}; border: 1px solid var(--border-color);"></div>
+                        <span>0</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                        <div style="width: 30px; height: 20px; background: ${getHeatmapColor(maxScale * 0.5, maxScale)}; border: 1px solid var(--border-color);"></div>
+                        <span>${(maxScale * 0.5).toFixed(1)}</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                        <div style="width: 30px; height: 20px; background: ${getHeatmapColor(maxScale, maxScale)}; border: 1px solid var(--border-color);"></div>
+                        <span>${maxScale}+ FTE</span>
+                    </div>
+                </div>
+            `;
+
+            heatmapContainer.innerHTML = heatmapHTML;
+
+            // Update Trend Chart
+            updateWorkloadTrendChart(roleWorkload);
+
+            // Update Individual Workload
+            updateIndividualWorkload();
+
+            // Update FTE Table
+            updateFteTable();
+        }
+
+        function updateWorkloadTrendChart(roleWorkload) {
+            const ctx = document.getElementById('workloadTrendChart');
+            if (!ctx) return;
+
+            if (workloadTrendChart) {
+                workloadTrendChart.destroy();
+            }
+
+            const datasets = roles.map(role => ({
+                label: role.name,
+                data: roleWorkload[role.id] || Array(12).fill(0),
+                borderColor: role.color,
+                backgroundColor: role.color + '33',
+                tension: 0.4
+            }));
+
+            workloadTrendChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: MONTHS,
+                    datasets: datasets
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        title: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Total FTE'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function updateIndividualWorkload() {
+            const memberId = document.getElementById('individualMemberFilter')?.value;
+            const ctx = document.getElementById('individualWorkloadChart');
+            if (!ctx || !memberId) {
+                if (individualWorkloadChart) {
+                    individualWorkloadChart.destroy();
+                    individualWorkloadChart = null;
+                }
+                return;
+            }
+
+            const member = members.find(m => m.id === memberId);
+            if (!member) return;
+
+            // Calculate workload by role
+            const workloadByRole = {};
+            
+            projects.forEach(project => {
+                if (!project.teamMembers) return;
+
+                project.teamMembers.forEach(tm => {
+                    if (tm.memberId === memberId) {
+                        const role = roles.find(r => r.id === tm.roleId);
+                        const roleName = role ? role.name : 'Unknown';
+                        
+                        if (!workloadByRole[roleName]) {
+                            workloadByRole[roleName] = {
+                                data: Array(12).fill(0),
+                                color: role ? role.color : '#64748b'
+                            };
+                        }
+
+                        (tm.fteAllocation || []).forEach((fte, month) => {
+                            workloadByRole[roleName].data[month] += parseFloat(fte) || 0;
+                        });
+                    }
+                });
+            });
+
+            if (individualWorkloadChart) {
+                individualWorkloadChart.destroy();
+            }
+
+            const datasets = Object.entries(workloadByRole).map(([roleName, data]) => ({
+                label: roleName,
+                data: data.data,
+                backgroundColor: data.color,
+                borderColor: data.color,
+                borderWidth: 1
+            }));
+
+            individualWorkloadChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: MONTHS,
+                    datasets: datasets
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        title: {
+                            display: true,
+                            text: `${member.firstName} ${member.lastName} - Workload by Role`
+                        }
+                    },
+                    scales: {
+                        x: {
+                            stacked: true,
+                        },
+                        y: {
+                            stacked: true,
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'FTE'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function updateFteTable() {
+            const tbody = document.getElementById('fteTableBody');
+            const rows = [];
+
+            projects.forEach(project => {
+                if (!project.teamMembers) return;
+
+                project.teamMembers.forEach(tm => {
+                    const member = members.find(m => m.id === tm.memberId);
+                    const role = roles.find(r => r.id === tm.roleId);
+                    const memberName = member ? `${member.firstName} ${member.lastName}` : 'Unknown';
+                    const roleName = role ? role.name : 'Unknown';
+
+                    const monthlyFte = tm.fteAllocation || Array(12).fill(0);
+                    const total = monthlyFte.reduce((sum, fte) => sum + (parseFloat(fte) || 0), 0);
+
+                    rows.push({
+                        role: roleName,
+                        member: memberName,
+                        project: project.name,
+                        months: monthlyFte,
+                        total: total
+                    });
+                });
+            });
+
+            if (rows.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="16" style="text-align: center; padding: 2rem; color: var(--text-secondary);">
+                            No FTE allocations found
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            tbody.innerHTML = rows.map(row => `
+                <tr>
+                    <td>${row.role}</td>
+                    <td>${row.member}</td>
+                    <td>${row.project}</td>
+                    ${row.months.map(fte => `<td style="text-align: center;">${parseFloat(fte).toFixed(1)}</td>`).join('')}
+                    <td style="text-align: center; font-weight: 600;">${row.total.toFixed(1)}</td>
+                </tr>
+            `).join('');
+        }
+
+        // ========== MAP VIEW ==========
+
+        function initMap() {
+            map = L.map('map').setView([13.7563, 100.5018], 6); // Center on Thailand
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors',
+                maxZoom: 19
+            }).addTo(map);
+
+            markersLayer = L.layerGroup().addTo(map);
+            updateMapMarkers();
+        }
+
+        function updateMapMarkers() {
+            if (!map || !markersLayer) return;
+
+            markersLayer.clearLayers();
+
+            const categoryFilter = document.getElementById('mapCategoryFilter')?.value || '';
+            const bounds = [];
+
+            partners.forEach(partner => {
+                if (categoryFilter) {
+                    const hasCategory = partner.categories && partner.categories.some(c => {
+                        const cat = categories.find(cat => cat.id === c || cat.name === c);
+                        return cat && (cat.id === categoryFilter || cat.name === categoryFilter);
+                    });
+                    if (!hasCategory) return;
+                }
+
+                if (!partner.location?.latitude || !partner.location?.longitude) return;
+
+                const lat = partner.location.latitude;
+                const lng = partner.location.longitude;
+                const primaryCategory = partner.categories && partner.categories[0];
+                const color = primaryCategory ? getCategoryColor(primaryCategory) : '#64748b';
+
+                const icon = L.divIcon({
+                    className: 'custom-div-icon',
+                    html: `<div style="background-color: ${color}; width: 20px; height: 20px; border-radius: 50%; border: 2px solid white; box-shadow: 0 2px 4px rgba(0,0,0,0.3);"></div>`,
+                    iconSize: [20, 20],
+                    iconAnchor: [10, 10]
+                });
+
+                const marker = L.marker([lat, lng], { icon: icon })
+                    .bindPopup(createPopupContent(partner));
+
+                markersLayer.addLayer(marker);
+                bounds.push([lat, lng]);
+            });
+
+            if (bounds.length > 0 && !categoryFilter) {
+                map.fitBounds(bounds);
+            }
+        }
+
+        function createPopupContent(partner) {
+            const partnerProjects = projects.filter(p => p.partnerId === partner.id);
+            const categoryBadges = (partner.categories || []).map(catId => {
+                const cat = categories.find(c => c.id === catId || c.name === catId);
+                if (!cat) return '';
+                return `<span class="category-badge" style="background-color: ${cat.color}">${cat.name}</span>`;
+            }).join('');
+
+            return `
+                <div style="min-width: 250px;">
+                    <h3 style="margin: 0 0 0.5rem 0; color: #1e293b; font-size: 1rem;">${partner.name}</h3>
+                    <div style="margin: 0.5rem 0;">${categoryBadges}</div>
+                    ${partner.agreementType ? `<p style="margin: 0.25rem 0; color: #64748b; font-size: 0.875rem;">
+                        <strong>Agreement:</strong> ${partner.agreementType}
+                    </p>` : ''}
+                    <p style="margin: 0.25rem 0; color: #64748b; font-size: 0.875rem;">
+                        <strong>Location:</strong> ${partner.location.city}, ${partner.location.country}
+                    </p>
+                    <p style="margin: 0.25rem 0; color: #64748b; font-size: 0.875rem;">
+                        <strong>Contact:</strong> ${partner.contact.person}
+                    </p>
+                    <p style="margin: 0.25rem 0; color: #64748b; font-size: 0.875rem;">
+                        <strong>Projects:</strong> ${partnerProjects.length}
+                    </p>
+                </div>
+            `;
+        }
+
+        function fitMapToMarkers() {
+            if (!map || !markersLayer) return;
+            const bounds = [];
+            markersLayer.eachLayer(layer => {
+                if (layer instanceof L.Marker) {
+                    bounds.push(layer.getLatLng());
+                }
+            });
+            if (bounds.length > 0) {
+                map.fitBounds(bounds);
+            }
+        }
+
+        function filterMapMarkers() {
+            updateMapMarkers();
+        }
+
+        // ========== CATEGORY MANAGEMENT ==========
+
+        function getCategoryColor(categoryName) {
+            const category = categories.find(c => c.name.toLowerCase() === categoryName.toLowerCase() || c.id === categoryName);
+            return category ? category.color : '#64748b';
+        }
+
+        function updateCategoryList() {
+            const container = document.getElementById('categoryList');
+            if (categories.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">📁</div>
+                        <p>No categories defined. Add your first category!</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = categories.map(cat => `
+                <div class="category-item">
+                    <input type="color" 
+                           class="category-color-picker" 
+                           value="${cat.color}" 
+                           onchange="updateCategoryColor('${cat.id}', this.value)">
+                    <div style="flex: 1;">
+                        <input type="text" 
+                               class="form-input" 
+                               value="${cat.name}" 
+                               onchange="updateCategoryName('${cat.id}', this.value)"
+                               placeholder="Category name">
+                    </div>
+                    <div style="min-width: 120px; text-align: center; padding: 0.5rem; background: ${cat.color}; color: white; border-radius: 0.5rem; font-weight: 500;">
+                        Preview
+                    </div>
+                    <button class="btn btn-danger btn-sm" onclick="deleteCategory('${cat.id}')">
+                        🗑️
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        function addNewCategory() {
+            const newCategory = {
+                id: 'cat_' + Date.now(),
+                name: 'New Category',
+                color: '#' + Math.floor(Math.random()*16777215).toString(16).padStart(6, '0')
+            };
+            categories.push(newCategory);
+            categories.sort((a, b) => a.name.localeCompare(b.name));
+            updateCategoryList();
+            showSuccess('Category added!');
+        }
+
+        function updateCategoryColor(categoryId, color) {
+            const category = categories.find(c => c.id === categoryId);
+            if (category) {
+                category.color = color;
+                updateMapMarkers();
+                updatePartnerTable();
+                populateFilters();
+                updateCategoryList();
+            }
+        }
+
+        function updateCategoryName(categoryId, name) {
+            if (!name.trim()) {
+                showError('Category name cannot be empty');
+                updateCategoryList();
+                return;
+            }
+            const category = categories.find(c => c.id === categoryId);
+            if (category) {
+                category.name = name;
+                categories.sort((a, b) => a.name.localeCompare(b.name));
+                populateFilters();
+                updatePartnerTable();
+            }
+        }
+
+        function deleteCategory(categoryId) {
+            if (!confirm('Delete this category? Partners using it will have it removed.')) return;
+
+            const category = categories.find(c => c.id === categoryId);
+            partners.forEach(partner => {
+                if (partner.categories) {
+                    partner.categories = partner.categories.filter(c => c !== categoryId && c !== category?.name);
+                }
+            });
+
+            categories = categories.filter(c => c.id !== categoryId);
+            updateCategoryList();
+            updatePartnerTable();
+            populateFilters();
+            showSuccess('Category deleted!');
+        }
+
+        async function saveAllCategories() {
+            const invalid = categories.find(c => !c.name || !c.name.trim());
+            if (invalid) {
+                showError('All categories must have a name');
+                return;
+            }
+            await saveToFile(categories, 'categories.json', 'categories');
+        }
+
+        function uploadCategoriesJSON(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const data = JSON.parse(e.target.result);
+                    if (Array.isArray(data)) {
+                        const isValid = data.every(cat => cat.id && cat.name && cat.color);
+                        if (!isValid) {
+                            showError('Invalid format. Each category needs id, name, and color.');
+                            return;
+                        }
+                        categories = data;
+                        categories.sort((a, b) => a.name.localeCompare(b.name));
+                        showSuccess('Categories uploaded!');
+                        updateCategoryList();
+                        populateFilters();
+                        updatePartnerTable();
+                        updateMapMarkers();
+                    } else {
+                        showError('Invalid JSON format.');
+                    }
+                } catch (error) {
+                    showError('Error parsing file: ' + error.message);
+                }
+            };
+            reader.readAsText(file);
+            event.target.value = '';
+        }
+
+        // ========== ROLE MANAGEMENT ==========
+
+        function updateRoleList() {
+            const container = document.getElementById('roleList');
+            if (roles.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">👔</div>
+                        <p>No roles defined. Add your first role!</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = roles.map(role => `
+                <div class="role-item">
+                    <input type="color" 
+                           class="role-color-picker" 
+                           value="${role.color}" 
+                           onchange="updateRoleColor('${role.id}', this.value)">
+                    <div style="flex: 1;">
+                        <input type="text" 
+                               class="form-input" 
+                               value="${role.name}" 
+                               onchange="updateRoleName('${role.id}', this.value)"
+                               placeholder="Role name"
+                               style="margin-bottom: 0.5rem;">
+                        <input type="text" 
+                               class="form-input" 
+                               value="${role.description || ''}" 
+                               onchange="updateRoleDescription('${role.id}', this.value)"
+                               placeholder="Description"
+                               style="font-size: 0.875rem;">
+                    </div>
+                    <div style="min-width: 120px; text-align: center; padding: 0.5rem; background: ${role.color}; color: white; border-radius: 0.5rem; font-weight: 500;">
+                        ${role.name}
+                    </div>
+                    <button class="btn btn-danger btn-sm" onclick="deleteRole('${role.id}')">
+                        🗑️
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        function addNewRole() {
+            const newRole = {
+                id: 'role_' + Date.now(),
+                name: 'New Role',
+                color: '#' + Math.floor(Math.random()*16777215).toString(16).padStart(6, '0'),
+                description: ''
+            };
+            roles.push(newRole);
+            roles.sort((a, b) => a.name.localeCompare(b.name));
+            updateRoleList();
+            showSuccess('Role added!');
+        }
+
+        function updateRoleColor(roleId, color) {
+            const role = roles.find(r => r.id === roleId);
+            if (role) {
+                role.color = color;
+                updateRoleList();
+                updateMemberTable();
+                updateResourceCharts();
+            }
+        }
+
+        function updateRoleName(roleId, name) {
+            if (!name.trim()) {
+                showError('Role name cannot be empty');
+                updateRoleList();
+                return;
+            }
+            const role = roles.find(r => r.id === roleId);
+            if (role) {
+                role.name = name;
+                roles.sort((a, b) => a.name.localeCompare(b.name));
+                updateMemberTable();
+            }
+        }
+
+        function updateRoleDescription(roleId, description) {
+            const role = roles.find(r => r.id === roleId);
+            if (role) {
+                role.description = description;
+            }
+        }
+
+        function deleteRole(roleId) {
+            if (!confirm('Delete this role? Members will have it removed.')) return;
+
+            const role = roles.find(r => r.id === roleId);
+            members.forEach(member => {
+                if (member.roles) {
+                    member.roles = member.roles.filter(r => r !== roleId && r !== role?.name);
+                }
+            });
+
+            roles = roles.filter(r => r.id !== roleId);
+            updateRoleList();
+            updateMemberTable();
+            showSuccess('Role deleted!');
+        }
+
+        async function saveAllRoles() {
+            const invalid = roles.find(r => !r.name || !r.name.trim());
+            if (invalid) {
+                showError('All roles must have a name');
+                return;
+            }
+            await saveToFile(roles, 'roles.json', 'roles');
+        }
+
+        function uploadRolesJSON(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const data = JSON.parse(e.target.result);
+                    if (Array.isArray(data)) {
+                        const isValid = data.every(role => role.id && role.name && role.color);
+                        if (!isValid) {
+                            showError('Invalid format.');
+                            return;
+                        }
+                        roles = data;
+                        roles.sort((a, b) => a.name.localeCompare(b.name));
+                        showSuccess('Roles uploaded!');
+                        updateRoleList();
+                        updateMemberTable();
+                    } else {
+                        showError('Invalid JSON format.');
+                    }
+                } catch (error) {
+                    showError('Error: ' + error.message);
+                }
+            };
+            reader.readAsText(file);
+            event.target.value = '';
+        }
+
+        // ========== MEMBER MANAGEMENT ==========
+
+        function updateMemberTable() {
+            const tbody = document.getElementById('membersTableBody');
+            const searchTerm = document.getElementById('memberSearch')?.value.toLowerCase() || '';
+
+            const filteredMembers = members.filter(m => 
+                m.firstName?.toLowerCase().includes(searchTerm) ||
+                m.lastName?.toLowerCase().includes(searchTerm) ||
+                m.email?.toLowerCase().includes(searchTerm) ||
+                m.company?.toLowerCase().includes(searchTerm)
+            );
+
+            if (filteredMembers.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="7" style="text-align: center; padding: 2rem; color: var(--text-secondary);">
+                            No members found
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            tbody.innerHTML = filteredMembers.map(member => {
+                const fullName = `${member.firstName} ${member.lastName}`;
+                const roleBadges = (member.roles || []).map(roleId => {
+                    const role = roles.find(r => r.id === roleId || r.name === roleId);
+                    if (!role) return '';
+                    return `<span class="role-badge" style="background-color: ${role.color}">${role.name}</span>`;
+                }).join('');
+
+                return `
+                    <tr>
+                        <td><strong>${fullName}</strong></td>
+                        <td>${member.email}</td>
+                        <td>${member.company || 'N/A'}</td>
+                        <td>${member.department || 'N/A'}</td>
+                        <td>${roleBadges || '<span style="color: var(--text-secondary);">No roles</span>'}</td>
+                        <td>${member.phone || 'N/A'}</td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="btn btn-primary btn-sm" onclick="editMember('${member.id}')">✏️</button>
+                                <button class="btn btn-danger btn-sm" onclick="deleteMember('${member.id}')">🗑️</button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+
+            // Update individual workload dropdown
+            const select = document.getElementById('individualMemberFilter');
+            if (select) {
+                const currentValue = select.value;
+                select.innerHTML = '<option value="">Select a member</option>' + 
+                    members.map(m => `
+                        <option value="${m.id}">${m.firstName} ${m.lastName} - ${m.company}</option>
+                    `).join('');
+                select.value = currentValue;
+            }
+        }
+
+        function filterMemberTable() {
+            updateMemberTable();
+        }
+
+        function populateRoleCheckboxes(selectedRoles = []) {
+            const container = document.getElementById('memberRoleCheckboxes');
+            if (roles.length === 0) {
+                container.innerHTML = '<p style="color: var(--text-secondary); padding: 1rem;">No roles available.</p>';
+                return;
+            }
+
+            container.innerHTML = roles.map(role => {
+                const isChecked = selectedRoles.includes(role.id) || selectedRoles.includes(role.name);
+                return `
+                    <label class="category-checkbox-item">
+                        <input type="checkbox" name="memberRole" value="${role.id}" ${isChecked ? 'checked' : ''}>
+                        <div class="category-color-indicator" style="background-color: ${role.color}"></div>
+                        <span>${role.name}</span>
+                    </label>
+                `;
+            }).join('');
+        }
+
+        function openMemberModal(memberId = null) {
+            editMode = !!memberId;
+            currentMember = memberId ? members.find(m => m.id === memberId) : null;
+
+            document.getElementById('memberModalTitle').textContent = editMode ? 'Edit Member' : 'Add Member';
+
+            if (editMode && currentMember) {
+                document.getElementById('memberFirstName').value = currentMember.firstName || '';
+                document.getElementById('memberLastName').value = currentMember.lastName || '';
+                document.getElementById('memberEmail').value = currentMember.email || '';
+                document.getElementById('memberPhone').value = currentMember.phone || '';
+                document.getElementById('memberCompany').value = currentMember.company || '';
+                document.getElementById('memberDepartment').value = currentMember.department || '';
+                document.getElementById('memberTitle').value = currentMember.title || '';
+                document.getElementById('memberLocation').value = currentMember.location || '';
+                document.getElementById('memberSkills').value = (currentMember.skills || []).join(', ');
+                document.getElementById('memberNotes').value = currentMember.notes || '';
+                populateRoleCheckboxes(currentMember.roles || []);
+            } else {
+                document.getElementById('memberForm').reset();
+                populateRoleCheckboxes();
+            }
+
+            document.getElementById('memberModal').classList.add('show');
+        }
+
+        function closeMemberModal() {
+            document.getElementById('memberModal').classList.remove('show');
+            currentMember = null;
+            editMode = false;
+        }
+
+        function saveMember() {
+            const form = document.getElementById('memberForm');
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                return;
+            }
+
+            const selectedRoles = Array.from(document.querySelectorAll('input[name="memberRole"]:checked'))
+                .map(cb => cb.value);
+
+            if (selectedRoles.length === 0) {
+                showError('Please select at least one role');
+                return;
+            }
+
+            const skillsText = document.getElementById('memberSkills').value;
+            const skills = skillsText ? skillsText.split(',').map(s => s.trim()).filter(s => s) : [];
+
+            const memberData = {
+                id: editMode && currentMember ? currentMember.id : 'm' + Date.now(),
+                firstName: document.getElementById('memberFirstName').value,
+                lastName: document.getElementById('memberLastName').value,
+                email: document.getElementById('memberEmail').value,
+                phone: document.getElementById('memberPhone').value,
+                company: document.getElementById('memberCompany').value,
+                department: document.getElementById('memberDepartment').value,
+                title: document.getElementById('memberTitle').value,
+                location: document.getElementById('memberLocation').value,
+                roles: selectedRoles,
+                skills: skills,
+                notes: document.getElementById('memberNotes').value
+            };
+
+            if (editMode && currentMember) {
+                const index = members.findIndex(m => m.id === currentMember.id);
+                members[index] = memberData;
+                showSuccess('Member updated!');
+            } else {
+                members.push(memberData);
+                showSuccess('Member added!');
+            }
+
+            members.sort((a, b) => {
+                const nameA = `${a.firstName} ${a.lastName}`;
+                const nameB = `${b.firstName} ${b.lastName}`;
+                return nameA.localeCompare(nameB);
+            });
+
+            closeMemberModal();
+            updateMemberTable();
+        }
+
+        function editMember(memberId) {
+            openMemberModal(memberId);
+        }
+
+        function deleteMember(memberId) {
+            if (!confirm('Delete this member?')) return;
+
+            members = members.filter(m => m.id !== memberId);
+            showSuccess('Member deleted!');
+            updateMemberTable();
+        }
+
+        async function saveAllMembers() {
+            await saveToFile(members, 'members.json', 'members');
+        }
+
+        function uploadMembersJSON(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const data = JSON.parse(e.target.result);
+                    if (Array.isArray(data)) {
+                        members = data;
+                        members.sort((a, b) => {
+                            const nameA = `${a.firstName} ${a.lastName}`;
+                            const nameB = `${b.firstName} ${b.lastName}`;
+                            return nameA.localeCompare(nameB);
+                        });
+                        showSuccess('Members uploaded!');
+                        updateMemberTable();
+                    } else {
+                        showError('Invalid JSON format.');
+                    }
+                } catch (error) {
+                    showError('Error: ' + error.message);
+                }
+            };
+            reader.readAsText(file);
+            event.target.value = '';
+        }
+
+        // ========== PARTNER MANAGEMENT ==========
+
+        function updatePartnerTable() {
+            const tbody = document.getElementById('partnersTableBody');
+            const searchTerm = document.getElementById('partnerSearch')?.value.toLowerCase() || '';
+
+            const filteredPartners = partners.filter(p => 
+                p.name.toLowerCase().includes(searchTerm) ||
+                (p.categories && p.categories.some(c => c.toLowerCase().includes(searchTerm))) ||
+                p.location.city.toLowerCase().includes(searchTerm)
+            );
+
+            if (filteredPartners.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="8" style="text-align: center; padding: 2rem; color: var(--text-secondary);">
+                            No partners found
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            tbody.innerHTML = filteredPartners.map(partner => {
+                const categoryBadges = (partner.categories || []).map(catId => {
+                    const cat = categories.find(c => c.id === catId || c.name === catId);
+                    if (!cat) return '';
+                    return `<span class="category-badge" style="background-color: ${cat.color}">${cat.name}</span>`;
+                }).join('');
+
+                return `
+                    <tr>
+                        <td><strong>${partner.name}</strong></td>
+                        <td>${categoryBadges || '<span style="color: var(--text-secondary);">None</span>'}</td>
+                        <td>${partner.agreementType || 'N/A'}</td>
+                        <td>${partner.contractValue ? partner.contractValue.toFixed(1) : 'N/A'}</td>
+                        <td>${partner.effectiveDate || 'N/A'}</td>
+                        <td>${partner.expiryDate || 'N/A'}</td>
+                        <td>${partner.location.city}, ${partner.location.country}</td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="btn btn-primary btn-sm" onclick="editPartner('${partner.id}')">✏️</button>
+                                <button class="btn btn-danger btn-sm" onclick="deletePartner('${partner.id}')">🗑️</button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function filterPartnerTable() {
+            updatePartnerTable();
+        }
+
+        function populateCategoryCheckboxes(selectedCategories = []) {
+            const container = document.getElementById('partnerCategoryCheckboxes');
+            if (categories.length === 0) {
+                container.innerHTML = '<p style="color: var(--text-secondary); padding: 1rem;">No categories available.</p>';
+                return;
+            }
+
+            container.innerHTML = categories.map(cat => {
+                const isChecked = selectedCategories.includes(cat.id) || selectedCategories.includes(cat.name);
+                return `
+                    <label class="category-checkbox-item">
+                        <input type="checkbox" name="partnerCategory" value="${cat.id}" ${isChecked ? 'checked' : ''}>
+                        <div class="category-color-indicator" style="background-color: ${cat.color}"></div>
+                        <span>${cat.name}</span>
+                    </label>
+                `;
+            }).join('');
+        }
+
+        function openPartnerModal(partnerId = null) {
+            editMode = !!partnerId;
+            currentPartner = partnerId ? partners.find(p => p.id === partnerId) : null;
+
+            document.getElementById('partnerModalTitle').textContent = editMode ? 'Edit Partner' : 'Add Partner';
+
+            if (editMode && currentPartner) {
+                document.getElementById('partnerName').value = currentPartner.name;
+                document.getElementById('partnerContactPerson').value = currentPartner.contact.person;
+                document.getElementById('partnerEmail').value = currentPartner.contact.email;
+                document.getElementById('partnerPhone').value = currentPartner.contact.phone || '';
+                document.getElementById('partnerAddress').value = currentPartner.location.address || '';
+                document.getElementById('partnerCity').value = currentPartner.location.city;
+                document.getElementById('partnerCountry').value = currentPartner.location.country;
+                document.getElementById('partnerLatitude').value = currentPartner.location.latitude;
+                document.getElementById('partnerLongitude').value = currentPartner.location.longitude;
+                document.getElementById('partnerScope').value = currentPartner.scope;
+                document.getElementById('agreementType').value = currentPartner.agreementType || '';
+                document.getElementById('agreementDoc').value = currentPartner.agreementDoc || '';
+                document.getElementById('contractValue').value = currentPartner.contractValue || '';
+                document.getElementById('agreementPurpose').value = currentPartner.agreementPurpose || '';
+                document.getElementById('liabilities').value = currentPartner.liabilities || '';
+                document.getElementById('effectiveDate').value = currentPartner.effectiveDate || '';
+                document.getElementById('expiryDate').value = currentPartner.expiryDate || '';
+                document.getElementById('partnerNotes').value = currentPartner.notes || '';
+                populateCategoryCheckboxes(currentPartner.categories || []);
+            } else {
+                document.getElementById('partnerForm').reset();
+                populateCategoryCheckboxes();
+            }
+
+            document.getElementById('partnerModal').classList.add('show');
+        }
+
+        function closePartnerModal() {
+            document.getElementById('partnerModal').classList.remove('show');
+            currentPartner = null;
+            editMode = false;
+        }
+
+        function savePartner() {
+            const form = document.getElementById('partnerForm');
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                return;
+            }
+
+            const selectedCategories = Array.from(document.querySelectorAll('input[name="partnerCategory"]:checked'))
+                .map(cb => cb.value);
+
+            if (selectedCategories.length === 0) {
+                showError('Please select at least one category');
+                return;
+            }
+
+            const partnerData = {
+                id: editMode && currentPartner ? currentPartner.id : 'p' + Date.now(),
+                name: document.getElementById('partnerName').value,
+                categories: selectedCategories,
+                location: {
+                    address: document.getElementById('partnerAddress').value,
+                    city: document.getElementById('partnerCity').value,
+                    country: document.getElementById('partnerCountry').value,
+                    latitude: parseFloat(document.getElementById('partnerLatitude').value),
+                    longitude: parseFloat(document.getElementById('partnerLongitude').value)
+                },
+                contact: {
+                    person: document.getElementById('partnerContactPerson').value,
+                    email: document.getElementById('partnerEmail').value,
+                    phone: document.getElementById('partnerPhone').value
+                },
+                scope: document.getElementById('partnerScope').value,
+                agreementType: document.getElementById('agreementType').value,
+                agreementDoc: document.getElementById('agreementDoc').value,
+                contractValue: parseFloat(document.getElementById('contractValue').value) || null,
+                agreementPurpose: document.getElementById('agreementPurpose').value,
+                liabilities: document.getElementById('liabilities').value,
+                effectiveDate: document.getElementById('effectiveDate').value,
+                expiryDate: document.getElementById('expiryDate').value,
+                notes: document.getElementById('partnerNotes').value
+            };
+
+            if (editMode && currentPartner) {
+                const index = partners.findIndex(p => p.id === currentPartner.id);
+                partners[index] = partnerData;
+                showSuccess('Partner updated!');
+            } else {
+                partners.push(partnerData);
+                showSuccess('Partner added!');
+            }
+
+            partners.sort((a, b) => a.name.localeCompare(b.name));
+
+            closePartnerModal();
+            updatePartnerTable();
+            updateMapMarkers();
+            populateFilters();
+            updateNotifications();
+        }
+
+        function editPartner(partnerId) {
+            openPartnerModal(partnerId);
+        }
+
+        function deletePartner(partnerId) {
+            if (!confirm('Delete this partner and all projects?')) return;
+
+            partners = partners.filter(p => p.id !== partnerId);
+            projects = projects.filter(p => p.partnerId !== partnerId);
+
+            showSuccess('Partner deleted!');
+            updatePartnerTable();
+            updateMapMarkers();
+            populateFilters();
+            updateDashboard();
+            updatePortfolio();
+            updateNotifications();
+        }
+
+        async function saveAllPartnersData() {
+            await saveToFile(partners, 'partners.json', 'partners');
+        }
+
+        function uploadPartnersJSON(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const data = JSON.parse(e.target.result);
+                    if (Array.isArray(data)) {
+                        partners = data.map(p => {
+                            if (p.category && typeof p.category === 'string') {
+                                return { ...p, categories: [p.category] };
+                            } else if (!p.categories) {
+                                return { ...p, categories: [] };
+                            }
+                            return p;
+                        });
+                        partners.sort((a, b) => a.name.localeCompare(b.name));
+                        showSuccess('Partners uploaded!');
+                        updatePartnerTable();
+                        updateMapMarkers();
+                        populateFilters();
+                        updateNotifications();
+                    } else {
+                        showError('Invalid JSON format.');
+                    }
+                } catch (error) {
+                    showError('Error: ' + error.message);
+                }
+            };
+            reader.readAsText(file);
+            event.target.value = '';
+        }
+
+        // ========== PROJECT MANAGEMENT ==========
+
+        function updateProjectsManageTable() {
+            const tbody = document.getElementById('projectsManageTableBody');
+            const searchTerm = document.getElementById('projectSearch')?.value.toLowerCase() || '';
+
+            const filteredProjects = projects.filter(p => {
+                const partner = partners.find(pt => pt.id === p.partnerId);
+                return p.name.toLowerCase().includes(searchTerm) ||
+                       p.phase?.toLowerCase().includes(searchTerm) ||
+                       partner?.name.toLowerCase().includes(searchTerm);
+            });
+
+            if (filteredProjects.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="8" style="text-align: center; padding: 2rem; color: var(--text-secondary);">
+                            No projects found
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            tbody.innerHTML = filteredProjects.map(project => {
+                const partner = partners.find(p => p.id === project.partnerId);
+                const worstStatus = getWorstStatus(project);
+                const teamSize = project.teamMembers ? project.teamMembers.length : 0;
+                
+                return `
+                    <tr>
+                        <td><strong>${project.name}</strong></td>
+                        <td>${partner ? partner.name : 'Unknown'}</td>
+                        <td>${teamSize} members</td>
+                        <td>${project.phase || 'N/A'}</td>
+                        <td>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: ${project.progress || 0}%"></div>
+                            </div>
+                            ${project.progress || 0}%
+                        </td>
+                        <td>฿${((project.cost || 0) / 1000000).toFixed(2)}</td>
+                        <td>
+                            <div class="status-dot status-${worstStatus.toLowerCase()}" style="width: 16px; height: 16px; display: inline-block;"></div>
+                            ${worstStatus}
+                        </td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="btn btn-primary btn-sm" onclick="openProjectModal('${project.id}')">✏️</button>
+                                <button class="btn btn-danger btn-sm" onclick="deleteProject('${project.id}')">🗑️</button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function filterProjectsTable() {
+            updateProjectsManageTable();
+        }
+
+        function getMemberSelectOptions(selectedMemberId = '') {
+            return `
+                <option value="">Select Member</option>
+                ${members.map(m => `
+                    <option value="${m.id}" ${selectedMemberId === m.id ? 'selected' : ''}>
+                        ${m.firstName} ${m.lastName} - ${m.company}
+                    </option>
+                `).join('')}
+            `;
+        }
+
+        function getRoleSelectOptions(selectedRoleId = '', memberRoles = []) {
+            // Filter roles based on member's roles if member is selected
+            const availableRoles = memberRoles.length > 0 
+                ? roles.filter(r => memberRoles.includes(r.id))
+                : roles;
+
+            return `
+                <option value="">Select Role</option>
+                ${availableRoles.map(r => `
+                    <option value="${r.id}" ${selectedRoleId === r.id ? 'selected' : ''}>${r.name}</option>
+                `).join('')}
+            `;
+        }
+
+        function openProjectModal(projectId = null) {
+            editMode = !!projectId;
+            currentProject = projectId ? projects.find(p => p.id === projectId) : null;
+
+            document.getElementById('projectModalTitle').textContent = editMode ? 'Edit Project' : 'Add Project';
+
+            const modalBody = document.getElementById('projectModalBody');
+            const project = currentProject || {};
+
+            if (!project.teamMembers) project.teamMembers = [];
+
+            modalBody.innerHTML = `
+                <form id="projectForm">
+                    <div class="section-title">📋 Project Information</div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Project Name *</label>
+                        <input type="text" class="form-input" id="projectName" value="${project.name || ''}" required>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Partner *</label>
+                            <select class="form-input" id="projectPartner" required>
+                                <option value="">Select Partner</option>
+                                ${partners.map(p => `
+                                    <option value="${p.id}" ${project.partnerId === p.id ? 'selected' : ''}>${p.name}</option>
+                                `).join('')}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Phase *</label>
+                            <select class="form-input" id="projectPhase" required>
+                                ${PHASES.map(phase => `
+                                    <option value="${phase}" ${project.phase === phase ? 'selected' : ''}>${phase}</option>
+                                `).join('')}
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Scope *</label>
+                        <textarea class="form-input" id="projectScope" required>${project.scope || ''}</textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Expectation</label>
+                        <textarea class="form-input" id="projectExpectation">${project.expectation || ''}</textarea>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Start Date</label>
+                            <input type="date" class="form-input" id="projectStartTime" value="${project.startTime || ''}">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">End Date</label>
+                            <input type="date" class="form-input" id="projectEndTime" value="${project.endTime || ''}">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Cost (฿)</label>
+                            <input type="number" class="form-input" id="projectCost" value="${project.cost || 0}">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Progress (%)</label>
+                            <input type="number" class="form-input" id="projectProgress" min="0" max="100" value="${project.progress || 0}">
+                        </div>
+                    </div>
+
+                    <hr class="section-divider">
+                    <div class="section-title">👥 Team Members with FTE Allocation</div>
+
+                    <div class="team-list" id="teamMembersList">
+                        ${(project.teamMembers || []).map((tm, index) => createTeamMemberRow(tm, index)).join('')}
+                    </div>
+                    <button type="button" class="btn btn-secondary" onclick="addTeamMember()" style="margin-top: 0.5rem;">+ Add Team Member</button>
+
+                    <hr class="section-divider">
+                    <div class="section-title">📊 Status Dimensions</div>
+
+                    <div class="status-grid">
+                        ${STATUS_DIMENSIONS.map(dim => `
+                            <div class="status-select-group">
+                                <label style="font-size: 0.875rem; color: var(--text-secondary);">${DIMENSION_LABELS[dim]}</label>
+                                <select class="form-input" id="${dim}">
+                                    <option value="Green" ${project[dim] === 'Green' ? 'selected' : ''}>Green</option>
+                                    <option value="Yellow" ${project[dim] === 'Yellow' ? 'selected' : ''}>Yellow</option>
+                                    <option value="Red" ${project[dim] === 'Red' ? 'selected' : ''}>Red</option>
+                                </select>
+                            </div>
+                        `).join('')}
+                    </div>
+
+                    <hr class="section-divider">
+                    <div class="section-title">🎯 KPIs</div>
+
+                    <div class="kpi-list" id="kpiList">
+                        ${(project.kpis || []).map((kpi, index) => `
+                            <div class="kpi-item">
+                                <div>
+                                    <label style="font-size: 0.75rem; color: var(--text-secondary);">Name</label>
+                                    <input type="text" class="form-input kpi-name" value="${kpi.name || ''}" data-index="${index}">
+                                </div>
+                                <div>
+                                    <label style="font-size: 0.75rem; color: var(--text-secondary);">Target</label>
+                                    <input type="text" class="form-input kpi-target" value="${kpi.target || ''}" data-index="${index}">
+                                </div>
+                                <div>
+                                    <label style="font-size: 0.75rem; color: var(--text-secondary);">Current</label>
+                                    <input type="text" class="form-input kpi-current" value="${kpi.current || ''}" data-index="${index}">
+                                </div>
+                                <button type="button" class="btn btn-danger btn-sm" onclick="this.parentElement.remove()">✕</button>
+                            </div>
+                        `).join('')}
+                    </div>
+                    <button type="button" class="btn btn-secondary" onclick="addKPI()" style="margin-top: 0.5rem;">+ Add KPI</button>
+                </form>
+            `;
+
+            document.getElementById('projectModal').classList.add('show');
+        }
+
+        function createTeamMemberRow(tm, index) {
+            const member = members.find(m => m.id === tm.memberId);
+            const memberRoles = member ? member.roles : [];
+
+            return `
+                <div class="team-member-item">
+                    <div class="team-member-header">
+                        <div>
+                            <label style="font-size: 0.75rem; color: var(--text-secondary);">Member</label>
+                            <select class="form-input team-member-select" data-index="${index}" onchange="updateMemberRoles(${index}, this.value)">
+                                ${getMemberSelectOptions(tm.memberId)}
+                            </select>
+                        </div>
+                        <div>
+                            <label style="font-size: 0.75rem; color: var(--text-secondary);">Acting Role</label>
+                            <select class="form-input team-role-select" data-index="${index}">
+                                ${getRoleSelectOptions(tm.roleId, memberRoles)}
+                            </select>
+                        </div>
+                        <div>
+                            <label style="font-size: 0.75rem; color: var(--text-secondary);">Total FTE</label>
+                            <input type="text" class="form-input" value="${calculateTotalFte(tm.fteAllocation || [])}" readonly style="text-align: center; font-weight: 600;">
+                        </div>
+                        <button type="button" class="btn btn-danger btn-sm" onclick="this.parentElement.parentElement.remove()">✕</button>
+                    </div>
+                    <div>
+                        <label style="font-size: 0.75rem; color: var(--text-secondary); margin-bottom: 0.5rem; display: block;">Monthly FTE Allocation</label>
+                        <div class="fte-grid">
+                            ${MONTHS.map((month, i) => `
+                                <div>
+                                    <div class="month-header">${month}</div>
+                                    <input type="number" step="0.1" min="0" max="1" class="form-input fte-input team-fte-${index}" data-month="${i}" value="${(tm.fteAllocation && tm.fteAllocation[i]) || 0}" onchange="updateTotalFte(${index})">
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function calculateTotalFte(fteArray) {
+            return fteArray.reduce((sum, fte) => sum + (parseFloat(fte) || 0), 0).toFixed(1);
+        }
+
+        function updateTotalFte(index) {
+            const fteInputs = document.querySelectorAll(`.team-fte-${index}`);
+            let total = 0;
+            fteInputs.forEach(input => {
+                total += parseFloat(input.value) || 0;
+            });
+            
+            // Update the total display
+            const teamItems = document.querySelectorAll('.team-member-item');
+            if (teamItems[index]) {
+                const totalInput = teamItems[index].querySelector('input[readonly]');
+                if (totalInput) {
+                    totalInput.value = total.toFixed(1);
+                }
+            }
+        }
+
+        function updateMemberRoles(index, memberId) {
+            if (!memberId) return;
+
+            const member = members.find(m => m.id === memberId);
+            if (!member) return;
+
+            // Update role dropdown with member's roles
+            const roleSelects = document.querySelectorAll('.team-role-select');
+            if (roleSelects[index]) {
+                roleSelects[index].innerHTML = getRoleSelectOptions('', member.roles);
+            }
+        }
+
+        function addTeamMember() {
+            const teamList = document.getElementById('teamMembersList');
+            const index = teamList.children.length;
+            teamList.insertAdjacentHTML('beforeend', createTeamMemberRow({}, index));
+        }
+
+        function addKPI() {
+            const kpiList = document.getElementById('kpiList');
+            const index = kpiList.children.length;
+            const kpiHTML = `
+                <div class="kpi-item">
+                    <div>
+                        <label style="font-size: 0.75rem; color: var(--text-secondary);">Name</label>
+                        <input type="text" class="form-input kpi-name" value="" data-index="${index}">
+                    </div>
+                    <div>
+                        <label style="font-size: 0.75rem; color: var(--text-secondary);">Target</label>
+                        <input type="text" class="form-input kpi-target" value="" data-index="${index}">
+                    </div>
+                    <div>
+                        <label style="font-size: 0.75rem; color: var(--text-secondary);">Current</label>
+                        <input type="text" class="form-input kpi-current" value="" data-index="${index}">
+                    </div>
+                    <button type="button" class="btn btn-danger btn-sm" onclick="this.parentElement.remove()">✕</button>
+                </div>
+            `;
+            kpiList.insertAdjacentHTML('beforeend', kpiHTML);
+        }
+
+        function closeProjectModal() {
+            document.getElementById('projectModal').classList.remove('show');
+            currentProject = null;
+            editMode = false;
+        }
+
+        function saveProject() {
+            const form = document.getElementById('projectForm');
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                return;
+            }
+
+            // Collect KPIs
+            const kpis = [];
+            const kpiNames = document.querySelectorAll('.kpi-name');
+            const kpiTargets = document.querySelectorAll('.kpi-target');
+            const kpiCurrents = document.querySelectorAll('.kpi-current');
+
+            for (let i = 0; i < kpiNames.length; i++) {
+                if (kpiNames[i].value) {
+                    kpis.push({
+                        name: kpiNames[i].value,
+                        target: kpiTargets[i].value,
+                        current: kpiCurrents[i].value
+                    });
+                }
+            }
+
+            // Collect Team Members
+            const teamMembers = [];
+            const memberSelects = document.querySelectorAll('.team-member-select');
+            const roleSelects = document.querySelectorAll('.team-role-select');
+
+            memberSelects.forEach((memberSelect, index) => {
+                const memberId = memberSelect.value;
+                const roleId = roleSelects[index].value;
+
+                if (memberId && roleId) {
+                    const fteInputs = document.querySelectorAll(`.team-fte-${index}`);
+                    const fteAllocation = Array.from(fteInputs).map(input => parseFloat(input.value) || 0);
+
+                    teamMembers.push({
+                        memberId: memberId,
+                        roleId: roleId,
+                        fteAllocation: fteAllocation
+                    });
+                }
+            });
+
+            const projectData = {
+                id: editMode && currentProject ? currentProject.id : 'proj' + Date.now(),
+                partnerId: document.getElementById('projectPartner').value,
+                name: document.getElementById('projectName').value,
+                scope: document.getElementById('projectScope').value,
+                expectation: document.getElementById('projectExpectation').value,
+                startTime: document.getElementById('projectStartTime').value,
+                endTime: document.getElementById('projectEndTime').value,
+                cost: parseFloat(document.getElementById('projectCost').value) || 0,
+                progress: parseInt(document.getElementById('projectProgress').value) || 0,
+                phase: document.getElementById('projectPhase').value,
+                teamMembers: teamMembers,
+                kpis: kpis
+            };
+
+            STATUS_DIMENSIONS.forEach(dim => {
+                projectData[dim] = document.getElementById(dim).value;
+            });
+
+            if (editMode && currentProject) {
+                const index = projects.findIndex(p => p.id === currentProject.id);
+                projects[index] = projectData;
+                showSuccess('Project updated!');
+            } else {
+                projects.push(projectData);
+                showSuccess('Project added!');
+            }
+
+            closeProjectModal();
+            updateProjectsManageTable();
+            updateDashboard();
+            updatePortfolio();
+            updateResourceCharts();
+        }
+
+        function deleteProject(projectId) {
+            if (!confirm('Delete this project?')) return;
+
+            projects = projects.filter(p => p.id !== projectId);
+            showSuccess('Project deleted!');
+            updateProjectsManageTable();
+            updateDashboard();
+            updatePortfolio();
+            updateResourceCharts();
+        }
+
+        async function saveAllProjectsData() {
+            await saveToFile(projects, 'projects.json', 'projects');
+            updateResourceCharts();
+        }
+
+        function uploadProjectsJSON(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const data = JSON.parse(e.target.result);
+                    if (Array.isArray(data)) {
+                        projects = data;
+                        showSuccess('Projects uploaded!');
+                        updateProjectsManageTable();
+                        updateDashboard();
+                        updatePortfolio();
+                        updateResourceCharts();
+                    } else {
+                        showError('Invalid JSON format.');
+                    }
+                } catch (error) {
+                    showError('Error: ' + error.message);
+                }
+            };
+            reader.readAsText(file);
+            event.target.value = '';
+        }
+
+        // ========== DASHBOARD ==========
+
+        function updateDashboard() {
+            updateSummaryCards();
+            updateProjectTable();
+        }
+
+        function updateSummaryCards() {
+            document.getElementById('totalProjects').textContent = projects.length;
+            document.getElementById('totalPartners').textContent = partners.length;
+            
+            const avgProgress = projects.length > 0
+                ? Math.round(projects.reduce((sum, p) => sum + (p.progress || 0), 0) / projects.length)
+                : 0;
+            document.getElementById('avgProgress').textContent = avgProgress + '%';
+            
+            let criticalIssues = 0;
+            projects.forEach(project => {
+                STATUS_DIMENSIONS.forEach(dim => {
+                    if (project[dim] === 'Red') criticalIssues++;
+                });
+            });
+            document.getElementById('criticalIssues').textContent = criticalIssues;
+        }
+
+        function updateProjectTable() {
+            const container = document.getElementById('projectTableContainer');
+            const filteredProjects = getFilteredProjects('dashboard');
+
+            if (filteredProjects.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">📊</div>
+                        <p>No projects match your filters</p>
+                    </div>
+                `;
+                return;
+            }
+
+            let html = `
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Partner</th>
+                            <th>Project</th>
+                            <th>Phase</th>
+                            <th>Progress</th>
+                            <th>Status Indicators</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+
+            filteredProjects.forEach(project => {
+                const partner = partners.find(p => p.id === project.partnerId);
+                if (!partner) return;
+
+                html += `
+                    <tr>
+                        <td>${partner.name}</td>
+                        <td><strong>${project.name}</strong></td>
+                        <td>${project.phase || 'N/A'}</td>
+                        <td>
+                            <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: ${project.progress || 0}%"></div>
+                                </div>
+                                <span style="font-size: 0.875rem;">${project.progress || 0}%</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="status-indicators">
+                                ${STATUS_DIMENSIONS.map(dim => `
+                                    <div class="status-dot status-${(project[dim] || 'Green').toLowerCase()}"
+                                         data-tooltip="${DIMENSION_LABELS[dim]}: ${project[dim] || 'N/A'}">
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </td>
+                        <td>
+                            <button class="btn btn-primary btn-sm" onclick="openProjectModal('${project.id}')">
+                                View / Update
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            });
+
+            html += `</tbody></table>`;
+            container.innerHTML = html;
+        }
+
+        function getFilteredProjects(context) {
+            const partnerFilter = document.getElementById(context + 'PartnerFilter')?.value || '';
+            const categoryFilter = document.getElementById(context + 'CategoryFilter')?.value || '';
+            const phaseFilter = document.getElementById(context + 'PhaseFilter')?.value || '';
+            const statusFilter = document.getElementById(context + 'StatusFilter')?.value || '';
+
+            return projects.filter(project => {
+                const partner = partners.find(p => p.id === project.partnerId);
+                if (!partner) return false;
+
+                if (partnerFilter && project.partnerId !== partnerFilter) return false;
+                
+                if (categoryFilter) {
+                    const hasCategory = partner.categories && partner.categories.some(c => {
+                        const cat = categories.find(cat => cat.id === c || cat.name === c);
+                        return cat && (cat.id === categoryFilter || cat.name === categoryFilter);
+                    });
+                    if (!hasCategory) return false;
+                }
+                
+                if (phaseFilter && project.phase !== phaseFilter) return false;
+                
+                if (statusFilter) {
+                    const hasStatus = STATUS_DIMENSIONS.some(dim => project[dim] === statusFilter);
+                    if (!hasStatus) return false;
+                }
+
+                return true;
+            });
+        }
+
+        function filterDashboard() {
+            updateProjectTable();
+        }
+
+        function resetDashboardFilters() {
+            document.getElementById('dashboardPartnerFilter').value = '';
+            document.getElementById('dashboardCategoryFilter').value = '';
+            document.getElementById('dashboardPhaseFilter').value = '';
+            document.getElementById('dashboardStatusFilter').value = '';
+            updateProjectTable();
+        }
+
+        // ========== PORTFOLIO ==========
+
+        function updatePortfolio() {
+            const container = document.getElementById('portfolioBoard');
+            const filteredProjects = getFilteredProjects('portfolio');
+
+            container.innerHTML = '';
+
+            PHASES.forEach(phase => {
+                const phaseProjects = filteredProjects.filter(p => p.phase === phase);
+                
+                const column = document.createElement('div');
+                column.className = 'portfolio-column';
+
+                let columnHTML = `
+                    <div class="portfolio-column-header">
+                        ${phase} (${phaseProjects.length})
+                    </div>
+                `;
+
+                if (phaseProjects.length === 0) {
+                    columnHTML += `<div style="text-align: center; padding: 2rem; color: var(--text-secondary); font-size: 0.875rem;">No projects</div>`;
+                } else {
+                    phaseProjects.forEach(project => {
+                        const partner = partners.find(p => p.id === project.partnerId);
+                        if (!partner) return;
+
+                        const worstStatus = getWorstStatus(project);
+                        const categoryBadges = (partner.categories || []).slice(0, 2).map(catId => {
+                            const cat = categories.find(c => c.id === catId || c.name === catId);
+                            if (!cat) return '';
+                            return `<span class="category-badge" style="background-color: ${cat.color}; font-size: 0.7rem; padding: 0.2rem 0.5rem;">${cat.name}</span>`;
+                        }).join('');
+
+                        columnHTML += `
+                            <div class="project-card" onclick="openProjectModal('${project.id}')">
+                                <div class="project-card-title">${project.name}</div>
+                                <div class="project-card-partner">${partner.name}</div>
+                                <div style="margin: 0.5rem 0;">${categoryBadges}</div>
+                                <div style="display: flex; align-items: center; gap: 0.5rem; margin-top: 0.5rem;">
+                                    <div class="status-dot status-${worstStatus.toLowerCase()}" style="width: 16px; height: 16px;"></div>
+                                    <span style="font-size: 0.75rem; color: var(--text-secondary);">${worstStatus}</span>
+                                </div>
+                                <div style="margin-top: 0.5rem;">
+                                    <div class="progress-bar" style="width: 100%; margin-bottom: 0.25rem;">
+                                        <div class="progress-fill" style="width: ${project.progress || 0}%"></div>
+                                    </div>
+                                    <span style="font-size: 0.75rem; color: var(--text-secondary);">${project.progress || 0}% Complete</span>
+                                </div>
+                            </div>
+                        `;
+                    });
+                }
+
+                column.innerHTML = columnHTML;
+                container.appendChild(column);
+            });
+        }
+
+        function getWorstStatus(project) {
+            let hasRed = false;
+            let hasYellow = false;
+
+            STATUS_DIMENSIONS.forEach(dim => {
+                if (project[dim] === 'Red') hasRed = true;
+                if (project[dim] === 'Yellow') hasYellow = true;
+            });
+
+            if (hasRed) return 'Red';
+            if (hasYellow) return 'Yellow';
+            return 'Green';
+        }
+
+        function filterPortfolio() {
+            updatePortfolio();
+        }
+
+        function resetPortfolioFilters() {
+            document.getElementById('portfolioPartnerFilter').value = '';
+            document.getElementById('portfolioCategoryFilter').value = '';
+            document.getElementById('portfolioStatusFilter').value = '';
+            updatePortfolio();
+        }
+
+        // ========== POPULATE FILTERS ==========
+
+        function populateFilters() {
+            const categoryNames = categories.map(c => c.name).sort();
+
+            ['mapCategoryFilter', 'dashboardCategoryFilter', 'portfolioCategoryFilter'].forEach(selectId => {
+                const select = document.getElementById(selectId);
+                if (!select) return;
+                
+                while (select.options.length > 1) {
+                    select.remove(1);
+                }
+                
+                categoryNames.forEach(name => {
+                    const option = document.createElement('option');
+                    option.value = name;
+                    option.textContent = name;
+                    select.appendChild(option);
+                });
+            });
+
+            const sortedPartners = [...partners].sort((a, b) => a.name.localeCompare(b.name));
+            ['dashboardPartnerFilter', 'portfolioPartnerFilter'].forEach(selectId => {
+                const select = document.getElementById(selectId);
+                if (!select) return;
+                
+                while (select.options.length > 1) {
+                    select.remove(1);
+                }
+                
+                sortedPartners.forEach(partner => {
+                    const option = document.createElement('option');
+                    option.value = partner.id;
+                    option.textContent = partner.name;
+                    select.appendChild(option);
+                });
+            });
+
+            const phaseSelect = document.getElementById('dashboardPhaseFilter');
+            if (phaseSelect) {
+                while (phaseSelect.options.length > 1) {
+                    phaseSelect.remove(1);
+                }
+                
+                PHASES.forEach(phase => {
+                    const option = document.createElement('option');
+                    option.value = phase;
+                    option.textContent = phase;
+                    phaseSelect.appendChild(option);
+                });
+            }
+        }
+
+        // Initialize
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', init);
+        } else {
+            init();
+        }
+    </script>
+</body>
+</html>
+
+                    
