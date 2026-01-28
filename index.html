@@ -1632,8 +1632,8 @@
             auth: {
                 clientId: "2b35dd2c-28b8-4186-a481-ba484248852a",  // Replace with your Application (client) ID
                 authority: "https://login.microsoftonline.com/5db8bf0e-8592-4ed0-82b2-a6d4d77933d4",  // Replace with your Directory (tenant) ID
-                redirectUri: window.location.origin,
-                postLogoutRedirectUri: window.location.origin
+                redirectUri: window.location.origin + window.location.pathname,
+                postLogoutRedirectUri: window.location.origin + window.location.pathname
             },
             cache: {
                 cacheLocation: "sessionStorage",
@@ -1747,7 +1747,7 @@
             try {
                 currentUser = null;
                 await msalInstance.logoutRedirect({
-                    postLogoutRedirectUri: window.location.origin
+                    postLogoutRedirectUri: window.location.origin + '/app-product-partner-mgmt/'
                 });
             } catch (error) {
                 console.error("Logout error:", error);
