@@ -7,7 +7,7 @@
     "expectation": "AVEVA marketing arm to increase revenue, start from UHM and extend to other solutions",
     "startTime": "2025-10-01",
     "endTime": "2026-03-31",
-    "cost": 0,
+    "cost": 1000000,
     "progress": 25,
     "phase": "Incubate",
     "teamMembers": [
@@ -55,6 +55,24 @@
           0,
           0.3,
           0.3,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "memberId": "m1766379100265",
+        "roleId": "consultant",
+        "fteAllocation": [
+          0,
+          0.1,
+          0.1,
+          0,
           0,
           0,
           0,
@@ -201,9 +219,9 @@
     "marketStatus": "Green",
     "profitabilityStatus": "Green",
     "scalabilityStatus": "Green",
-    "resourceStatus": "Green",
+    "resourceStatus": "Yellow",
     "technologyStatus": "Green",
-    "budgetStatus": "Green",
+    "budgetStatus": "Yellow",
     "riskStatus": "Green",
     "scheduleStatus": "Green"
   },
@@ -253,6 +271,24 @@
           0.3,
           0.3,
           0.4
+        ]
+      },
+      {
+        "memberId": "m1767942011978",
+        "roleId": "analyst",
+        "fteAllocation": [
+          0.1,
+          0.2,
+          0.3,
+          0.3,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
         ]
       }
     ],
@@ -363,7 +399,7 @@
     "startTime": "2026-01-01",
     "endTime": "2026-12-25",
     "cost": 0,
-    "progress": 1,
+    "progress": 30,
     "phase": "Incubate",
     "teamMembers": [
       {
@@ -423,7 +459,7 @@
     ],
     "kpis": [],
     "marketStatus": "Green",
-    "profitabilityStatus": "Yellow",
+    "profitabilityStatus": "Green",
     "scalabilityStatus": "Green",
     "resourceStatus": "Yellow",
     "technologyStatus": "Green",
@@ -441,7 +477,7 @@
     "endTime": "2026-09-30",
     "cost": 0,
     "progress": 5,
-    "phase": "Ideate",
+    "phase": "2P2S",
     "teamMembers": [
       {
         "memberId": "m1768003996717",
@@ -474,6 +510,1093 @@
           0.1,
           0.2,
           0.1,
+          0,
+          0,
+          0
+        ]
+      }
+    ],
+    "kpis": [],
+    "marketStatus": "Green",
+    "profitabilityStatus": "Green",
+    "scalabilityStatus": "Green",
+    "resourceStatus": "Green",
+    "technologyStatus": "Green",
+    "budgetStatus": "Green",
+    "riskStatus": "Green",
+    "scheduleStatus": "Green"
+  },
+  {
+    "id": "proj1768188676584",
+    "partnerId": "p1766045824151",
+    "name": "O&M AIMS",
+    "scope": "O&M",
+    "expectation": "",
+    "startTime": "2026-01-01",
+    "endTime": "2026-12-31",
+    "cost": 0,
+    "progress": 4,
+    "phase": "O&M",
+    "teamMembers": [
+      {
+        "memberId": "m1768188302995",
+        "roleId": "role_1766371561674",
+        "fteAllocation": [
+          0.2,
+          0.1,
+          0.2,
+          0.1,
+          0.1,
+          0.2,
+          0.1,
+          0.2,
+          0.3,
+          0.3,
+          0.3,
+          0.3
+        ]
+      }
+    ],
+    "kpis": [],
+    "marketStatus": "Green",
+    "profitabilityStatus": "Green",
+    "scalabilityStatus": "Green",
+    "resourceStatus": "Green",
+    "technologyStatus": "Green",
+    "budgetStatus": "Green",
+    "riskStatus": "Green",
+    "scheduleStatus": "Green"
+  },
+  {
+    "id": "proj1768188858720",
+    "partnerId": "p1767662930275",
+    "name": "O&M RVS, MCA, SmartOFA",
+    "scope": "O&M",
+    "expectation": "",
+    "startTime": "2026-01-01",
+    "endTime": "2026-12-31",
+    "cost": 0,
+    "progress": 4,
+    "phase": "O&M",
+    "teamMembers": [
+      {
+        "memberId": "m1766371530200",
+        "roleId": "role_1766371538643",
+        "fteAllocation": [
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.2,
+          0.2,
+          0.2,
+          0.2,
+          0.2
+        ]
+      }
+    ],
+    "kpis": [],
+    "marketStatus": "Green",
+    "profitabilityStatus": "Green",
+    "scalabilityStatus": "Green",
+    "resourceStatus": "Green",
+    "technologyStatus": "Green",
+    "budgetStatus": "Green",
+    "riskStatus": "Green",
+    "scheduleStatus": "Green"
+  },
+  {
+    "id": "proj1768189045363",
+    "partnerId": "p1767662930275",
+    "name": "iReport for Tank Terminal",
+    "scope": "Obsolete management",
+    "expectation": "",
+    "startTime": "2025-10-01",
+    "endTime": "2026-12-31",
+    "cost": 0,
+    "progress": 10,
+    "phase": "Obsolescence",
+    "teamMembers": [
+      {
+        "memberId": "m1766379100265",
+        "roleId": "role_1768180953222",
+        "fteAllocation": [
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0.1,
+          0.1,
+          0.1
+        ]
+      },
+      {
+        "memberId": "m1768003996717",
+        "roleId": "coordinator",
+        "fteAllocation": [
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0.1,
+          0.1,
+          0.1
+        ]
+      }
+    ],
+    "kpis": [],
+    "marketStatus": "Green",
+    "profitabilityStatus": "Green",
+    "scalabilityStatus": "Green",
+    "resourceStatus": "Green",
+    "technologyStatus": "Green",
+    "budgetStatus": "Green",
+    "riskStatus": "Green",
+    "scheduleStatus": "Green"
+  },
+  {
+    "id": "proj1768189256250",
+    "partnerId": "p1767662930275",
+    "name": "O&M UHM Room ",
+    "scope": "Prepare UHM room to support Pre-sale & marketing",
+    "expectation": "",
+    "startTime": "2026-01-01",
+    "endTime": "2026-12-31",
+    "cost": 0,
+    "progress": 4,
+    "phase": "O&M",
+    "teamMembers": [
+      {
+        "memberId": "m1768188302995",
+        "roleId": "role_1766371561674",
+        "fteAllocation": [
+          0.2,
+          0.2,
+          0.2,
+          0.2,
+          0.2,
+          0.2,
+          0.2,
+          0.2,
+          0.2,
+          0.2,
+          0.2,
+          0.2
+        ]
+      },
+      {
+        "memberId": "m1766371530200",
+        "roleId": "",
+        "fteAllocation": [
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1
+        ]
+      }
+    ],
+    "kpis": [],
+    "marketStatus": "Green",
+    "profitabilityStatus": "Green",
+    "scalabilityStatus": "Green",
+    "resourceStatus": "Green",
+    "technologyStatus": "Green",
+    "budgetStatus": "Green",
+    "riskStatus": "Green",
+    "scheduleStatus": "Green"
+  },
+  {
+    "id": "proj1768189634097",
+    "partnerId": "p1767662930275",
+    "name": "Workforce Management for Protech Team",
+    "scope": "Phase 2 of Protech workforce platform",
+    "expectation": "",
+    "startTime": "2026-02-01",
+    "endTime": "2026-06-30",
+    "cost": 80000,
+    "progress": 1,
+    "phase": "2P2S",
+    "teamMembers": [
+      {
+        "memberId": "m1766371530200",
+        "roleId": "project_manager",
+        "fteAllocation": [
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "memberId": "m1766371530200",
+        "roleId": "architect",
+        "fteAllocation": [
+          0,
+          0.1,
+          0.1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "memberId": "m1766371530200",
+        "roleId": "coordinator",
+        "fteAllocation": [
+          0.1,
+          0.1,
+          0.1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "memberId": "m1766371530200",
+        "roleId": "tester",
+        "fteAllocation": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0.1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "memberId": "m1766371530200",
+        "roleId": "role_1768181992317",
+        "fteAllocation": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0.1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "memberId": "m1768188302995",
+        "roleId": "solution_owner",
+        "fteAllocation": [
+          0.1,
+          0.1,
+          0,
+          0,
+          0,
+          0.2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    ],
+    "kpis": [],
+    "marketStatus": "Green",
+    "profitabilityStatus": "Green",
+    "scalabilityStatus": "Green",
+    "resourceStatus": "Green",
+    "technologyStatus": "Green",
+    "budgetStatus": "Green",
+    "riskStatus": "Green",
+    "scheduleStatus": "Green"
+  },
+  {
+    "id": "proj1768190018607",
+    "partnerId": "p1767662930275",
+    "name": "SmartOFA NEX",
+    "scope": "ล้างป่าช้า : New platform [Microservice, Update technology Stack > Design system, AI-Powered ]",
+    "expectation": "",
+    "startTime": "2026-02-01",
+    "endTime": "2026-12-31",
+    "cost": 0,
+    "progress": 0,
+    "phase": "Ideate",
+    "teamMembers": [
+      {
+        "memberId": "m1766378357531",
+        "roleId": "project_manager",
+        "fteAllocation": [
+          0,
+          0.2,
+          0.2,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.2
+        ]
+      },
+      {
+        "memberId": "m1766378357531",
+        "roleId": "solution_owner",
+        "fteAllocation": [
+          0,
+          0.1,
+          0.1,
+          0,
+          0,
+          0.1,
+          0,
+          0,
+          0.1,
+          0,
+          0,
+          0.1
+        ]
+      },
+      {
+        "memberId": "m1768003996717",
+        "roleId": "architect",
+        "fteAllocation": [
+          0,
+          0.1,
+          0.2,
+          0.2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "memberId": "m1768003996717",
+        "roleId": "designer",
+        "fteAllocation": [
+          0,
+          0,
+          0.1,
+          0.2,
+          0.2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "memberId": "m1768003996717",
+        "roleId": "coordinator",
+        "fteAllocation": [
+          0,
+          0,
+          0.1,
+          0.1,
+          0.1,
+          0.2,
+          0.1,
+          0.1,
+          0.2,
+          0.1,
+          0.1,
+          0.2
+        ]
+      }
+    ],
+    "kpis": [],
+    "marketStatus": "Green",
+    "profitabilityStatus": "Green",
+    "scalabilityStatus": "Green",
+    "resourceStatus": "Green",
+    "technologyStatus": "Green",
+    "budgetStatus": "Green",
+    "riskStatus": "Green",
+    "scheduleStatus": "Green"
+  },
+  {
+    "id": "proj1768190456161",
+    "partnerId": "p1767662930275",
+    "name": "ISO27001 Certificate",
+    "scope": "To get ISO27001 certificate within Y2026",
+    "expectation": "",
+    "startTime": "2025-11-01",
+    "endTime": "2026-12-31",
+    "cost": 0,
+    "progress": 7,
+    "phase": "2P2S",
+    "teamMembers": [
+      {
+        "memberId": "m1768003996717",
+        "roleId": "project_manager",
+        "fteAllocation": [
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1
+        ]
+      },
+      {
+        "memberId": "m1767942011978",
+        "roleId": "role_1768004024736",
+        "fteAllocation": [
+          0.1,
+          0.1,
+          0.1,
+          0.2,
+          0.2,
+          0.2,
+          0.2,
+          0.2,
+          0.2,
+          0.2,
+          0.2,
+          0.2
+        ]
+      }
+    ],
+    "kpis": [],
+    "marketStatus": "Green",
+    "profitabilityStatus": "Green",
+    "scalabilityStatus": "Green",
+    "resourceStatus": "Green",
+    "technologyStatus": "Green",
+    "budgetStatus": "Green",
+    "riskStatus": "Green",
+    "scheduleStatus": "Green"
+  },
+  {
+    "id": "proj1768190692505",
+    "partnerId": "p1767662930275",
+    "name": "AI-Powered Technology Architecture",
+    "scope": "Build roadmap and technology stack for future products",
+    "expectation": "",
+    "startTime": "2025-11-01",
+    "endTime": "2026-03-31",
+    "cost": 0,
+    "progress": 5,
+    "phase": "2P2S",
+    "teamMembers": [
+      {
+        "memberId": "m1768181846215",
+        "roleId": "project_manager",
+        "fteAllocation": [
+          0.1,
+          0.1,
+          0.2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "memberId": "m1768181846215",
+        "roleId": "architect",
+        "fteAllocation": [
+          0.1,
+          0.2,
+          0.2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    ],
+    "kpis": [],
+    "marketStatus": "Green",
+    "profitabilityStatus": "Green",
+    "scalabilityStatus": "Green",
+    "resourceStatus": "Green",
+    "technologyStatus": "Green",
+    "budgetStatus": "Green",
+    "riskStatus": "Green",
+    "scheduleStatus": "Green"
+  },
+  {
+    "id": "proj1768190859804",
+    "partnerId": "p1767662930275",
+    "name": "REPCO Nex Marketing Website version2026",
+    "scope": "Website of REPCO Nex",
+    "expectation": "",
+    "startTime": "2025-11-01",
+    "endTime": "2026-03-31",
+    "cost": 0,
+    "progress": 15,
+    "phase": "Execution",
+    "teamMembers": [
+      {
+        "memberId": "m1766371530200",
+        "roleId": "consultant",
+        "fteAllocation": [
+          0.1,
+          0.1,
+          0.1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "memberId": "m1768003996717",
+        "roleId": "consultant",
+        "fteAllocation": [
+          0.1,
+          0.1,
+          0.1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    ],
+    "kpis": [],
+    "marketStatus": "Green",
+    "profitabilityStatus": "Green",
+    "scalabilityStatus": "Green",
+    "resourceStatus": "Green",
+    "technologyStatus": "Green",
+    "budgetStatus": "Green",
+    "riskStatus": "Green",
+    "scheduleStatus": "Green"
+  },
+  {
+    "id": "proj1768197980140",
+    "partnerId": "p1767662930275",
+    "name": "PSM",
+    "scope": "PSM",
+    "expectation": "",
+    "startTime": "",
+    "endTime": "2025-12-31",
+    "cost": 0,
+    "progress": 100,
+    "phase": "EndOfLife",
+    "teamMembers": [],
+    "kpis": [],
+    "marketStatus": "Green",
+    "profitabilityStatus": "Green",
+    "scalabilityStatus": "Green",
+    "resourceStatus": "Green",
+    "technologyStatus": "Green",
+    "budgetStatus": "Green",
+    "riskStatus": "Green",
+    "scheduleStatus": "Green"
+  },
+  {
+    "id": "proj1768198082536",
+    "partnerId": "p1767662930275",
+    "name": "CCTV imgae processing",
+    "scope": "CCTV imgae processing",
+    "expectation": "",
+    "startTime": "",
+    "endTime": "2025-12-31",
+    "cost": 0,
+    "progress": 100,
+    "phase": "EndOfLife",
+    "teamMembers": [],
+    "kpis": [],
+    "marketStatus": "Green",
+    "profitabilityStatus": "Green",
+    "scalabilityStatus": "Green",
+    "resourceStatus": "Green",
+    "technologyStatus": "Green",
+    "budgetStatus": "Green",
+    "riskStatus": "Green",
+    "scheduleStatus": "Green"
+  },
+  {
+    "id": "proj1768198205419",
+    "partnerId": "p1767662930275",
+    "name": "CSM",
+    "scope": "CSM platform",
+    "expectation": "",
+    "startTime": "",
+    "endTime": "2026-12-31",
+    "cost": 0,
+    "progress": 5,
+    "phase": "Phase-Out",
+    "teamMembers": [],
+    "kpis": [],
+    "marketStatus": "Green",
+    "profitabilityStatus": "Green",
+    "scalabilityStatus": "Green",
+    "resourceStatus": "Green",
+    "technologyStatus": "Green",
+    "budgetStatus": "Green",
+    "riskStatus": "Green",
+    "scheduleStatus": "Green"
+  },
+  {
+    "id": "proj1768198348197",
+    "partnerId": "p1767662930275",
+    "name": "Truck Loading System",
+    "scope": "Truck loading system platform",
+    "expectation": "",
+    "startTime": "",
+    "endTime": "2026-12-31",
+    "cost": 0,
+    "progress": 10,
+    "phase": "Phase-Out",
+    "teamMembers": [
+      {
+        "memberId": "m1766379100265",
+        "roleId": "project_manager",
+        "fteAllocation": [
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "memberId": "m1768003996717",
+        "roleId": "coordinator",
+        "fteAllocation": [
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    ],
+    "kpis": [],
+    "marketStatus": "Green",
+    "profitabilityStatus": "Green",
+    "scalabilityStatus": "Green",
+    "resourceStatus": "Green",
+    "technologyStatus": "Green",
+    "budgetStatus": "Green",
+    "riskStatus": "Green",
+    "scheduleStatus": "Green"
+  },
+  {
+    "id": "proj1768198655549",
+    "partnerId": "p1767662930275",
+    "name": "Furnance Twin",
+    "scope": "Furnace Digital Twin",
+    "expectation": "",
+    "startTime": "",
+    "endTime": "",
+    "cost": 0,
+    "progress": 0,
+    "phase": "Ideate",
+    "teamMembers": [
+      {
+        "memberId": "m1766378940864",
+        "roleId": "project_manager",
+        "fteAllocation": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    ],
+    "kpis": [],
+    "marketStatus": "Green",
+    "profitabilityStatus": "Green",
+    "scalabilityStatus": "Green",
+    "resourceStatus": "Green",
+    "technologyStatus": "Green",
+    "budgetStatus": "Green",
+    "riskStatus": "Green",
+    "scheduleStatus": "Green"
+  },
+  {
+    "id": "proj1768198732749",
+    "partnerId": "p1767662930275",
+    "name": "RVS AI+",
+    "scope": "RVS embedded  AI+ function",
+    "expectation": "",
+    "startTime": "",
+    "endTime": "",
+    "cost": 0,
+    "progress": 0,
+    "phase": "Ideate",
+    "teamMembers": [
+      {
+        "memberId": "m1766378357531",
+        "roleId": "project_manager",
+        "fteAllocation": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    ],
+    "kpis": [],
+    "marketStatus": "Green",
+    "profitabilityStatus": "Green",
+    "scalabilityStatus": "Green",
+    "resourceStatus": "Green",
+    "technologyStatus": "Green",
+    "budgetStatus": "Green",
+    "riskStatus": "Green",
+    "scheduleStatus": "Green"
+  },
+  {
+    "id": "proj1768198816929",
+    "partnerId": "p1767662930275",
+    "name": "PriSM Nex",
+    "scope": "PriSM Nex",
+    "expectation": "",
+    "startTime": "",
+    "endTime": "",
+    "cost": 0,
+    "progress": 0,
+    "phase": "Ideate",
+    "teamMembers": [
+      {
+        "memberId": "m1766379100265",
+        "roleId": "project_manager",
+        "fteAllocation": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    ],
+    "kpis": [],
+    "marketStatus": "Green",
+    "profitabilityStatus": "Green",
+    "scalabilityStatus": "Green",
+    "resourceStatus": "Green",
+    "technologyStatus": "Green",
+    "budgetStatus": "Green",
+    "riskStatus": "Green",
+    "scheduleStatus": "Green"
+  },
+  {
+    "id": "proj1768198869196",
+    "partnerId": "p1767662930275",
+    "name": "AIMS Portal",
+    "scope": "AIMS Portal",
+    "expectation": "",
+    "startTime": "",
+    "endTime": "",
+    "cost": 0,
+    "progress": 0,
+    "phase": "Ideate",
+    "teamMembers": [
+      {
+        "memberId": "m1766378669065",
+        "roleId": "project_manager",
+        "fteAllocation": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    ],
+    "kpis": [],
+    "marketStatus": "Green",
+    "profitabilityStatus": "Green",
+    "scalabilityStatus": "Green",
+    "resourceStatus": "Green",
+    "technologyStatus": "Green",
+    "budgetStatus": "Green",
+    "riskStatus": "Green",
+    "scheduleStatus": "Green"
+  },
+  {
+    "id": "proj1768199002359",
+    "partnerId": "p1768199252902",
+    "name": "Transformer Health Sensors",
+    "scope": "Transformer Health Sensors : Oil Analysis",
+    "expectation": "",
+    "startTime": "",
+    "endTime": "",
+    "cost": 0,
+    "progress": 0,
+    "phase": "Ideate",
+    "teamMembers": [
+      {
+        "memberId": "m1766378357531",
+        "roleId": "coordinator",
+        "fteAllocation": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    ],
+    "kpis": [],
+    "marketStatus": "Green",
+    "profitabilityStatus": "Green",
+    "scalabilityStatus": "Green",
+    "resourceStatus": "Green",
+    "technologyStatus": "Green",
+    "budgetStatus": "Green",
+    "riskStatus": "Green",
+    "scheduleStatus": "Green"
+  },
+  {
+    "id": "proj1768199477921",
+    "partnerId": "p1767662930275",
+    "name": "Data Center APM & Maintenance",
+    "scope": "New biz for data center [Maintenance value chain]",
+    "expectation": "",
+    "startTime": "2026-01-09",
+    "endTime": "2026-12-31",
+    "cost": 0,
+    "progress": 1,
+    "phase": "Ideate",
+    "teamMembers": [
+      {
+        "memberId": "m1766379018880",
+        "roleId": "project_manager",
+        "fteAllocation": [
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1
+        ]
+      },
+      {
+        "memberId": "m1768271243363",
+        "roleId": "consultant",
+        "fteAllocation": [
+          0.1,
+          0.1,
+          0.1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "memberId": "m1766379018880",
+        "roleId": "role_1768180953222",
+        "fteAllocation": [
+          0.1,
+          0.1,
+          0.2,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1
+        ]
+      }
+    ],
+    "kpis": [],
+    "marketStatus": "Green",
+    "profitabilityStatus": "Green",
+    "scalabilityStatus": "Green",
+    "resourceStatus": "Yellow",
+    "technologyStatus": "Green",
+    "budgetStatus": "Yellow",
+    "riskStatus": "Yellow",
+    "scheduleStatus": "Yellow"
+  },
+  {
+    "id": "proj1768878702552",
+    "partnerId": "p1767662930275",
+    "name": "DMS Migration Y2026",
+    "scope": "Migrate DMS in SCGC (34 plants)",
+    "expectation": "",
+    "startTime": "2026-01-05",
+    "endTime": "2026-07-31",
+    "cost": 0,
+    "progress": 5,
+    "phase": "Execution",
+    "teamMembers": [
+      {
+        "memberId": "m1767942011978",
+        "roleId": "developer",
+        "fteAllocation": [
+          0.1,
+          0.1,
+          0.05,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "memberId": "m1767942011978",
+        "roleId": "analyst",
+        "fteAllocation": [
+          0.2,
+          0.2,
+          0.2,
+          0.2,
+          0.2,
+          0.2,
+          0.2,
+          0,
+          0,
           0,
           0,
           0

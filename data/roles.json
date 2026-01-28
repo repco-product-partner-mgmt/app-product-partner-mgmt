@@ -112,5 +112,29 @@
     "name": "Technical Writer",
     "color": "#dad1d9",
     "description": "Documented all technical of software development"
+  },
+  {
+    "id": "role_1768192711512",
+    "name": "SCRUM Master",
+    "color": "#3b9c55",
+    "description": "SCRUM Master"
+  },
+  {
+    "id": "role_1768192760112",
+    "name": "Business Intelligence",
+    "color": "#e8f57f",
+    "description": "Design Data governance / Data Visualization for business impact"
+  },
+  {
+    "id": "role_1768199877690",
+    "name": "Solution Owner - AIoT",
+    "color": "#a00177",
+    "description": "AIoT Solution Owner"
+  },
+  {
+    "id": "role_1768878820001",
+    "name": "Solution Owner - AIMS",
+    "color": "#a7326a",
+    "description": "AIMS Solution Owner"
   }
 ]

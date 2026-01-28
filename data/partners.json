@@ -1,5 +1,33 @@
 [
   {
+    "id": "p1768207136431",
+    "name": " Massachusetts Institute of Technology",
+    "categories": [
+      "academic"
+    ],
+    "location": {
+      "address": "",
+      "city": "Massachusetts",
+      "country": "US",
+      "latitude": 44.59195811047049,
+      "longitude": -71.44573104763728
+    },
+    "contact": {
+      "person": "Mr.Brabra",
+      "email": "Brabra@MIT.ac.us",
+      "phone": ""
+    },
+    "scope": "AI for FITOPO",
+    "agreementType": "MOU",
+    "agreementDoc": "",
+    "agreementPurpose": "",
+    "contractValue": null,
+    "liabilities": "",
+    "effectiveDate": "2026-01-01",
+    "expiryDate": "2026-01-12",
+    "notes": ""
+  },
+  {
     "id": "p1766048785882",
     "name": " ZiFiSense Asia",
     "categories": [
@@ -245,11 +273,40 @@
     "agreement": {}
   },
   {
+    "id": "p1768207493216",
+    "name": "Huawei",
+    "categories": [
+      "finance",
+      "technology"
+    ],
+    "location": {
+      "address": "",
+      "city": "Guangdong",
+      "country": "CN",
+      "latitude": 22.653133717219262,
+      "longitude": 114.06111359822452
+    },
+    "contact": {
+      "person": "Mr.Hotline",
+      "email": "DPAPsupport@huawei.com",
+      "phone": ""
+    },
+    "scope": "Product supplier",
+    "agreementType": "",
+    "agreementDoc": "",
+    "agreementPurpose": "",
+    "contractValue": null,
+    "liabilities": "",
+    "effectiveDate": "",
+    "expiryDate": "",
+    "notes": ""
+  },
+  {
     "id": "p1766047023566",
     "name": "Infinite Control",
     "categories": [
-      "marketing",
-      "cat_1766046566177"
+      "cat_1766108849075",
+      "marketing"
     ],
     "location": {
       "address": "",
@@ -264,8 +321,14 @@
       "phone": ""
     },
     "scope": "Use for AVEVA Endorsed System Integrator",
-    "notes": "",
-    "agreement": {}
+    "agreementType": "MOU",
+    "agreementDoc": "",
+    "agreementPurpose": "",
+    "contractValue": null,
+    "liabilities": "",
+    "effectiveDate": "2025-09-01",
+    "expiryDate": "2026-09-01",
+    "notes": ""
   },
   {
     "id": "p1766108775375",
@@ -316,10 +379,10 @@
       "phone": ""
     },
     "scope": "MES, ERP, Digital Transformation",
-    "agreementType": "",
+    "agreementType": "MOU",
     "agreementDoc": "",
-    "contractValue": null,
     "agreementPurpose": "",
+    "contractValue": null,
     "liabilities": "",
     "effectiveDate": "2025-10-01",
     "expiryDate": "2026-03-31",
@@ -436,6 +499,34 @@
     "agreement": {}
   },
   {
+    "id": "p1768199252902",
+    "name": "University of Oxford",
+    "categories": [
+      "academic"
+    ],
+    "location": {
+      "address": "",
+      "city": "Oxford",
+      "country": "UK",
+      "latitude": 51.75712913385266,
+      "longitude": -1.253584507595129
+    },
+    "contact": {
+      "person": "Prof.XX",
+      "email": "xx@oxford.ac.uk",
+      "phone": ""
+    },
+    "scope": "Co-develop on Transformer Health Sensor [Oil Analysis]",
+    "agreementType": "",
+    "agreementDoc": "",
+    "agreementPurpose": "",
+    "contractValue": null,
+    "liabilities": "",
+    "effectiveDate": "",
+    "expiryDate": "",
+    "notes": ""
+  },
+  {
     "id": "p1766108484372",
     "name": "WEDO",
     "categories": [
@@ -456,5 +547,34 @@
     "scope": "MCA sensors",
     "notes": "",
     "agreement": {}
+  },
+  {
+    "id": "p1768275649998",
+    "name": "TOPPAN Ecquaria",
+    "categories": [
+      "finance",
+      "technology"
+    ],
+    "location": {
+      "address": "11 Toa Payoh Lorong 3, #02-31 Block C Jackson Square, Singapore 319579",
+      "city": "Jackson Square",
+      "country": "SG",
+      "latitude": 1.3372928355390024,
+      "longitude": 103.85013170133587
+    },
+    "contact": {
+      "person": "Erik Feng",
+      "email": "erikfeng@toppanecquaria.com",
+      "phone": "(+65) 6837 2822 "
+    },
+    "scope": "KAIZEN Digital Platform\nTOPPAN Ecquaria Digital ID\nEcquaria Government Platform (EGP)\nEcquaria Integration Centre (EIC)\nEcquaria Monitoring Stack (EMS)\nEcquaria DevSecOps Stack\nEcquaria Business Licensing System\nEcquaria SNAP\nEcquaria SOP",
+    "agreementType": "",
+    "agreementDoc": "",
+    "agreementPurpose": "",
+    "contractValue": null,
+    "liabilities": "",
+    "effectiveDate": "2025-12-17",
+    "expiryDate": "",
+    "notes": ""
   }
 ]
